@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Boosts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #091428;
+    --bg-panel: #0B1E30;
+    --bg-panel-2: #0F273D;
+    --bg-input: #0A1C2C;
+    --border: #1E3F55;
+    --border-soft: #16324690;
+    --gold: #C8A046;
+    --gold-bright: #F0E6D2;
+    --teal: #0AC8B9;
+    --text: #B9C4CC;
+    --text-dim: #62777F;
+    --red: #C9414F;
+    --green: #2BAE7A;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0; padding:0;
+    background: radial-gradient(1200px 600px at 15% -10%, #0E2438 0%, var(--bg) 55%) fixed;
+    color: var(--text);
+    font-family:'Rajdhani', sans-serif;
+    font-size:16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3, .display{
+    font-family:'Cinzel', serif;
+    color: var(--gold-bright);
+    letter-spacing: 0.02em;
+    margin:0;
+  }
+
+  .wrap{
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:28px;
+    padding-bottom:22px;
+    border-bottom: 1px solid var(--border-soft);
+    animation: fadeIn 0.6s ease;
+  }
+  header .title-block h1{ font-size: 30px; }
+  header .title-block p{
+    margin:6px 0 0;
+    color: var(--text-dim);
+    font-size:15px;
+  }
+  .next-payment{
+    background: linear-gradient(135deg, #14304430, #0AC8B915);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 18px;
+    text-align:right;
+    min-width: 210px;
+  }
+  .next-payment .label{ font-size:12px; color:var(--text-dim); }
+  .next-payment .date{ font-size:17px; color:var(--teal); font-weight:600; }
+
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(-6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Cards ---------- */
+  .cards{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:14px;
+    margin-bottom:30px;
+  }
+  .card{
+    background: var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px 18px 16px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    opacity:0.7;
+  }
+  .card .card-label{
+    font-size:13px;
+    color:var(--text-dim);
+    text-transform: none;
+  }
+  .card .card-value{
+    font-family:'Cinzel', serif;
+    font-size:26px;
+    color:var(--gold-bright);
+    margin-top:6px;
+  }
+  .card .card-sub{
+    font-size:13px;
+    margin-top:8px;
+    color:var(--text-dim);
+    display:flex; gap:12px; flex-wrap:wrap;
+  }
+  .card .card-sub b{ color:var(--text); font-weight:600;}
+
+  /* ---------- Panels ---------- */
+  .panel{
+    background: var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:26px;
+  }
+  .panel h2{
+    font-size:19px;
+    margin-bottom:16px;
+  }
+
+  form.job-form{
+    display:grid;
+    grid-template-columns: 0.6fr 1.3fr 0.85fr 0.7fr 0.85fr;
+    gap:12px 14px;
+    align-items:end;
+  }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field label{ font-size:12.5px; color:var(--text-dim); }
+  .field input, .field select{
+    background: var(--bg-input);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 10px;
+    color: var(--gold-bright);
+    font-family:'Rajdhani', sans-serif;
+    font-size:15px;
+    font-weight:500;
+  }
+  .field input:focus, .field select:focus{
+    outline: none;
+    border-color: var(--teal);
+  }
+  .field.wide{ grid-column: span 2; }
+  .field.full{ grid-column: 1 / -1; }
+
+  .status-toggle{
+    display:flex;
+    gap:8px;
+  }
+  .status-toggle button{
+    flex:1;
+    padding:9px 10px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background: var(--bg-input);
+    color: var(--text-dim);
+    font-family:'Rajdhani', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .status-toggle button.active[data-status="pendente"]{
+    background:#C8A04622; border-color:var(--gold); color:var(--gold-bright);
+  }
+  .status-toggle button.active[data-status="pago"]{
+    background:#2BAE7A22; border-color:var(--green); color:#7CE0B4;
+  }
+
+  .btn-primary{
+    grid-column: 1 / -1;
+    margin-top:4px;
+    padding:12px;
+    border-radius:9px;
+    border:none;
+    background: linear-gradient(135deg, var(--gold), #9C7A2E);
+    color:#0B1E30;
+    font-family:'Cinzel', serif;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    letter-spacing:0.02em;
+    transition: filter 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-primary:active{ transform: scale(0.99); }
+
+  /* ---------- Filters ---------- */
+  .filters{
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .filters button{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    padding:7px 14px;
+    border-radius:20px;
+    font-family:'Rajdhani', sans-serif;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition: all 0.15s;
+  }
+  .filters button.active{
+    border-color: var(--teal);
+    color: var(--teal);
+    background: #0AC8B914;
+  }
+
+  /* ---------- Table ---------- */
+  .jobs-table{
+    width:100%;
+    border-collapse: collapse;
+  }
+  .jobs-table thead th{
+    text-align:left;
+    font-size:12px;
+    font-weight:500;
+    color:var(--text-dim);
+    padding:0 10px 8px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .jobs-table tbody td{
+    padding:13px 10px 13px 0;
+    border-bottom:1px solid var(--border-soft);
+    vertical-align:middle;
+  }
+  .jobs-table tbody tr:last-child td{ border-bottom:none; }
+  .jobs-table th:last-child, .jobs-table td:last-child{ padding-right:0; }
+  .cliente-name{
+    color:var(--gold-bright);
+    font-weight:600;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:220px;
+  }
+  .cliente-name .num{
+    color: var(--text-dim);
+    font-weight:600;
+    font-size:12.5px;
+    margin-right:6px;
+  }
+  .tipo-badge{
+    display:inline-block;
+    font-size:11px;
+    font-weight:600;
+    padding:2px 8px;
+    border-radius:10px;
+    margin-top:4px;
+  }
+  .tipo-badge.elo{ background:#0AC8B920; color:var(--teal); }
+  .tipo-badge.duo{ background:#9A4DE022; color:#C9A6F0; }
+  .tipo-badge.coach{ background:#C8A04622; color:var(--gold); }
+  .elo-range{ display:flex; align-items:center; gap:6px; font-size:14px; flex-wrap:wrap;}
+  .elo-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; flex-shrink:0; }
+  .elo-arrow{ color:var(--text-dim); }
+  .valor{ font-weight:600; color:var(--gold-bright); white-space:nowrap; }
+  .data-cell{ font-size:13.5px; color:var(--text-dim); white-space:nowrap; }
+  .status-pill{
+    font-size:12px;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:20px;
+    text-align:center;
+    width:fit-content;
+    white-space:nowrap;
+  }
+  .status-pill.pendente{ background:#C8A04622; color:var(--gold); }
+  .status-pill.pago{ background:#2BAE7A22; color:var(--green); }
+  .jogos-cell{ font-size:13.5px; color:var(--teal); font-weight:600; white-space:nowrap; }
+  .jogos-cell.done{ color:var(--green); }
+  .jogos-cell.empty{ color:var(--text-dim); font-weight:400; }
+  .jogos-cell .est-mark{ color:var(--text-dim); font-weight:400; cursor:help; }
+  .field-note{
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:-2px;
+  }
+  .field-note.full{ grid-column: 1 / -1; }
+  .calc-legend{
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:10px;
+  }
+  .row-actions{ display:flex; gap:6px; justify-content:flex-end; }
+  .row-actions button{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    width:30px; height:30px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:14px;
+    transition: all 0.15s;
+  }
+  .row-actions button:hover{ border-color: var(--teal); color: var(--teal); }
+  .row-actions button.danger:hover{ border-color: var(--red); color: var(--red); }
+
+  .empty-state{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--text-dim);
+    font-size:15px;
+  }
+
+  .footer-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+    font-size:13px;
+    color: var(--text-dim);
+  }
+  .footer-actions button{
+    background:none;
+    border:none;
+    color: var(--text-dim);
+    text-decoration: underline;
+    cursor:pointer;
+    font-family:'Rajdhani', sans-serif;
+    font-size:13px;
+  }
+  .footer-actions button:hover{ color: var(--red); }
+
+  .toast{
+    position:fixed;
+    bottom:22px; left:50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-panel-2);
+    border:1px solid var(--teal);
+    color: var(--gold-bright);
+    padding:10px 20px;
+    border-radius:9px;
+    font-size:14px;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index:50;
+  }
+  .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); pointer-events:auto; }
+
+  @media (max-width: 700px){
+    .cards{ grid-template-columns: 1fr; }
+    form.job-form{ grid-template-columns: 1fr 1fr; }
+    .field.wide, .field.full, .btn-primary{ grid-column: 1 / -1; }
+
+    .jobs-table thead{ display:none; }
+    .jobs-table, .jobs-table tbody, .jobs-table tr, .jobs-table td{ display:block; width:100%; }
+    .jobs-table tr{
+      border:1px solid var(--border-soft);
+      border-radius:10px;
+      margin-bottom:10px;
+      padding:12px 14px;
+    }
+    .jobs-table td{
+      border-bottom:none;
+      padding:5px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .jobs-table td::before{
+      content: attr(data-label);
+      font-size:12px;
+      color:var(--text-dim);
+      flex-shrink:0;
+    }
+    .jobs-table td.cell-cliente::before,
+    .jobs-table td.cell-actions::before{ content:none; }
+    .jobs-table td.cell-cliente{ justify-content:flex-start; }
+    .jobs-table td.cell-actions{ justify-content:flex-end; padding-top:10px; }
+    .cliente-name{ max-width:none; }
+
+    header{ flex-direction:column; align-items:flex-start; }
+    .next-payment{ text-align:left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="title-block">
+      <h1>Central de Boosts</h1>
+      <p>Organize seus trampos, seus clientes e o que cai toda quarta.</p>
+    </div>
+    <div class="next-payment">
+      <div class="label">Próximo pagamento</div>
+      <div class="date" id="nextPaymentDate">—</div>
+    </div>
+  </header>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Semana atual</div>
+      <div class="card-value" id="weekTotal">R$ 0,00</div>
+      <div class="card-sub">
+        <span>Concluído: <b id="weekPaid">R$ 0,00</b></span>
+        <span>Não concluído: <b id="weekPending">R$ 0,00</b></span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Este mês</div>
+      <div class="card-value" id="monthTotal">R$ 0,00</div>
+      <div class="card-sub">
+        <span>Concluído: <b id="monthPaid">R$ 0,00</b></span>
+        <span>Não concluído: <b id="monthPending">R$ 0,00</b></span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Este ano</div>
+      <div class="card-value" id="yearTotal">R$ 0,00</div>
+      <div class="card-sub">
+        <span>Concluído: <b id="yearPaid">R$ 0,00</b></span>
+        <span>Não concluído: <b id="yearPending">R$ 0,00</b></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Novo trampo</h2>
+    <form class="job-form" id="jobForm">
+      <div class="field">
+        <label>Nº do trampo</label>
+        <input type="text" id="fNumero" placeholder="Ex: 10432">
+      </div>
+      <div class="field">
+        <label>Cliente</label>
+        <input type="text" id="fCliente" placeholder="Nome do cliente" required>
+      </div>
+      <div class="field">
+        <label>Tipo</label>
+        <select id="fTipo">
+          <option value="Elo Job">Elo Job</option>
+          <option value="Duo Boost">Duo Boost</option>
+          <option value="Coach">Coach</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Data</label>
+        <input type="date" id="fData" required>
+      </div>
+      <div class="field">
+        <label>Valor a receber</label>
+        <input type="number" id="fValor" placeholder="0,00" step="0.01" min="0" required>
+      </div>
+
+      <div class="field wide">
+        <label>Elo de</label>
+        <select id="fEloDe"></select>
+      </div>
+      <div class="field wide">
+        <label>Elo até</label>
+        <select id="fEloAte"></select>
+      </div>
+
+      <div class="field">
+        <label>PDL atual</label>
+        <input type="number" id="fPdlAtual" placeholder="Ex: 35">
+      </div>
+      <div class="field">
+        <label>PDL ganho por partida</label>
+        <input type="number" id="fPdlGanho" placeholder="Ex: 22">
+      </div>
+      <div class="field">
+        <label>PDL desejado no elo final</label>
+        <input type="number" id="fPdlDesejado" placeholder="Ex: 100">
+      </div>
+      <div class="field-note full">
+        Preenchendo esses campos, calculo sozinho quantos jogos faltam pra bater a meta. "PDL desejado" é quanto de PDL a conta precisa ter dentro do elo final (deixe em branco se for só entrar no elo, ou seja, 0 PDL). Se o elo de início for Mestre, Grão-Mestre ou Desafiante, coloque em "PDL atual" o total de PDL da conta (esses ranques não têm divisão fixa de 100).
+      </div>
+
+      <button type="submit" class="btn-primary">Adicionar trampo</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>Meus trampos</h2>
+    <div class="filters">
+      <button class="active" data-filter="todos">Todos</button>
+      <button data-filter="pendente">Não concluídos</button>
+      <button data-filter="pago">Concluídos</button>
+    </div>
+
+    <table class="jobs-table">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Elo</th>
+          <th>Valor</th>
+          <th>Data</th>
+          <th>Status</th>
+          <th>Jogos</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="jobList"></tbody>
+    </table>
+
+    <div class="empty-state" id="emptyState" style="display:none;">
+      Nenhum trampo registrado ainda. Adicione o primeiro aí em cima.
+    </div>
+    <div class="calc-legend">* estimativa: PDL para Mestre, Grão-Mestre e Desafiante varia por servidor/temporada, já que não têm divisões fixas.</div>
+
+    <div class="footer-actions">
+      <span id="jobCount">0 trampos</span>
+      <button id="resetBtn">Apagar todos os dados</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+
+  const RANKS = [
+    { name:'Ferro',       color:'#5B5A57', divisions:true },
+    { name:'Bronze',      color:'#A9784F', divisions:true },
+    { name:'Prata',       color:'#9AA7AD', divisions:true },
+    { name:'Ouro',        color:'#C8A046', divisions:true },
+    { name:'Platina',     color:'#3E9C82', divisions:true },
+    { name:'Esmeralda',   color:'#1E9E6D', divisions:true },
+    { name:'Diamante',    color:'#5AA0E0', divisions:true },
+    { name:'Mestre',      color:'#9A4DE0', divisions:false },
+    { name:'Grão-Mestre', color:'#C9414F', divisions:false },
+    { name:'Desafiante',  color:'#F4C874', divisions:false },
+  ];
+  const DIVISIONS = ['IV','III','II','I'];
+
+  function buildEloList(){
+    const list = [];
+    RANKS.forEach(r => {
+      if (r.divisions){
+        DIVISIONS.forEach(d => list.push(r.name + ' ' + d));
+      } else {
+        list.push(r.name);
+      }
+    });
+    return list;
+  }
+  const ELO_LIST = buildEloList();
+
+  function eloColor(eloStr){
+    const base = eloStr.split(' ')[0] === 'Grão-Mestre' ? 'Grão-Mestre' : eloStr.split(' ')[0];
+    const found = RANKS.find(r => eloStr.startsWith(r.name));
+    return found ? found.color : '#888';
+  }
+
+  function fillEloSelects(){
+    const de = document.getElementById('fEloDe');
+    const ate = document.getElementById('fEloAte');
+    ELO_LIST.forEach(e => {
+      de.appendChild(new Option(e, e));
+      ate.appendChild(new Option(e, e));
+    });
+    de.value = 'Ferro IV';
+    ate.value = 'Ferro IV';
+  }
+
+  // ---------- Calculadora de jogos (PDL) ----------
+  function tierIndex(eloStr){
+    return RANKS.findIndex(r => eloStr.startsWith(r.name));
+  }
+
+  function eloValue(eloStr, extra){
+    extra = extra || 0;
+    const idx = tierIndex(eloStr);
+    if (idx < 0) return null;
+    const rank = RANKS[idx];
+    if (rank.divisions){
+      const parts = eloStr.split(' ');
+      const divIdx = DIVISIONS.indexOf(parts[1]);
+      return idx * 400 + divIdx * 100 + extra;
+    }
+    return idx * 400 + extra;
+  }
+
+  function isEstimateRange(eloDe, eloAte){
+    return tierIndex(eloDe) >= 7 || tierIndex(eloAte) >= 7;
+  }
+
+  // Returns { games, estimate } or null if not enough data to calculate.
+  function calcGames(job){
+    const ganho = parseFloat(job.pdlGanho);
+    if (!ganho || ganho <= 0) return null;
+
+    const atual = parseFloat(job.pdlAtual) || 0;
+    const desejado = parseFloat(job.pdlDesejado) || 0;
+    const currentValue = eloValue(job.eloDe, atual);
+    const targetValue = eloValue(job.eloAte, desejado);
+    if (currentValue === null || targetValue === null) return null;
+
+    const gap = targetValue - currentValue;
+    const estimate = isEstimateRange(job.eloDe, job.eloAte);
+    const games = gap <= 0 ? 0 : Math.max(0, Math.ceil(gap / ganho));
+    return { games, estimate };
+  }
+
+  // ---------- Date helpers ----------
+  function isoDate(d){ return d.toISOString().slice(0,10); }
+  function todayISO(){ return isoDate(new Date()); }
+
+  // Returns the Wednesday (as Date) that closes the payment cycle containing `dateStr`.
+  // Cycle runs Thu -> Wed. If date IS a Wednesday, that same day is the payment date.
+  function getPaymentDate(dateStr){
+    const d = new Date(dateStr + 'T00:00:00');
+    const day = d.getDay(); // 0 Sun ... 3 Wed ... 6 Sat
+    const diff = (3 - day + 7) % 7;
+    const p = new Date(d);
+    p.setDate(d.getDate() + diff);
+    return p;
+  }
+
+  function fmtDateLong(d){
+    return d.toLocaleDateString('pt-BR', { weekday:'long', day:'2-digit', month:'long' });
+  }
+  function fmtDateShort(dateStr){
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'2-digit' });
+  }
+  function fmtBRL(v){
+    return v.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+  }
+
+  // ---------- State ----------
+  let jobs = [];
+  let currentFilter = 'todos';
+  let currentStatusInput = 'pendente';
+
+  function loadJobs(){
+    try{
+      const raw = localStorage.getItem('boost_jobs');
+      jobs = raw ? JSON.parse(raw) : [];
+    } catch(e){
+      jobs = [];
+    }
+    render();
+  }
+
+  function saveJobs(){
+    try{
+      localStorage.setItem('boost_jobs', JSON.stringify(jobs));
+    } catch(e){
+      showToast('Não consegui salvar. Tente novamente.');
+    }
+  }
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(()=> t.classList.remove('show'), 2200);
+  }
+
+  // ---------- Rendering ----------
+  function renderNextPayment(){
+    const p = getPaymentDate(todayISO());
+    document.getElementById('nextPaymentDate').textContent = fmtDateLong(p);
+  }
+
+  function renderDashboard(){
+    const today = new Date();
+    const currentWeekKey = isoDate(getPaymentDate(todayISO()));
+    const curMonth = today.getMonth();
+    const curYear = today.getFullYear();
+
+    let weekPaid=0, weekPending=0, monthPaid=0, monthPending=0, yearPaid=0, yearPending=0;
+
+    jobs.forEach(j => {
+      const jd = new Date(j.data + 'T00:00:00');
+      const val = parseFloat(j.valor) || 0;
+      const isPaid = j.status === 'pago';
+
+      if (isoDate(getPaymentDate(j.data)) === currentWeekKey){
+        if (isPaid) weekPaid += val; else weekPending += val;
+      }
+      if (jd.getFullYear() === curYear){
+        if (jd.getMonth() === curMonth){
+          if (isPaid) monthPaid += val; else monthPending += val;
+        }
+        if (isPaid) yearPaid += val; else yearPending += val;
+      }
+    });
+
+    document.getElementById('weekTotal').textContent = fmtBRL(weekPaid + weekPending);
+    document.getElementById('weekPaid').textContent = fmtBRL(weekPaid);
+    document.getElementById('weekPending').textContent = fmtBRL(weekPending);
+
+    document.getElementById('monthTotal').textContent = fmtBRL(monthPaid + monthPending);
+    document.getElementById('monthPaid').textContent = fmtBRL(monthPaid);
+    document.getElementById('monthPending').textContent = fmtBRL(monthPending);
+
+    document.getElementById('yearTotal').textContent = fmtBRL(yearPaid + yearPending);
+    document.getElementById('yearPaid').textContent = fmtBRL(yearPaid);
+    document.getElementById('yearPending').textContent = fmtBRL(yearPending);
+  }
+
+  function renderList(){
+    const list = document.getElementById('jobList');
+    const empty = document.getElementById('emptyState');
+    list.innerHTML = '';
+
+    let filtered = jobs.slice().sort((a,b)=> b.data.localeCompare(a.data));
+    if (currentFilter !== 'todos'){
+      filtered = filtered.filter(j => j.status === currentFilter);
+    }
+
+    document.getElementById('jobCount').textContent =
+      jobs.length + (jobs.length === 1 ? ' trampo' : ' trampos');
+
+    if (filtered.length === 0){
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    filtered.forEach(j => {
+      const row = document.createElement('tr');
+      const calc = calcGames(j);
+      let jogosHtml;
+      if (!calc){
+        jogosHtml = `<span class="jogos-cell empty">—</span>`;
+      } else if (calc.games <= 0){
+        jogosHtml = `<span class="jogos-cell done">Meta batida</span>`;
+      } else {
+        const gamesShown = Math.max(0, calc.games);
+        jogosHtml = `<span class="jogos-cell">${gamesShown} jogos${calc.estimate ? ' <span class="est-mark" title="Estimativa: PDL para Mestre+ varia por servidor/temporada.">*</span>' : ''}</span>`;
+      }
+
+      row.innerHTML = `
+        <td class="cell-cliente">
+          <div class="cliente-name">${j.numero ? `<span class="num">#${escapeHtml(j.numero)}</span>` : ''}${escapeHtml(j.cliente)}</div>
+          ${j.tipo ? `<span class="tipo-badge ${j.tipo === 'Duo Boost' ? 'duo' : j.tipo === 'Coach' ? 'coach' : 'elo'}">${escapeHtml(j.tipo)}</span>` : ''}
+        </td>
+        <td data-label="Elo">
+          <span class="elo-range">
+            <span class="elo-dot" style="background:${eloColor(j.eloDe)}"></span>${j.eloDe}
+            <span class="elo-arrow">→</span>
+            <span class="elo-dot" style="background:${eloColor(j.eloAte)}"></span>${j.eloAte}
+          </span>
+        </td>
+        <td data-label="Valor"><span class="valor">${fmtBRL(parseFloat(j.valor)||0)}</span></td>
+        <td data-label="Data"><span class="data-cell">${fmtDateShort(j.data)}</span></td>
+        <td data-label="Status"><span class="status-pill ${j.status}">${j.status === 'pago' ? 'Concluído' : 'Não concluído'}</span></td>
+        <td data-label="Jogos">${jogosHtml}</td>
+        <td class="cell-actions">
+          <div class="row-actions">
+            <button data-action="toggle" data-id="${j.id}" title="Alternar status">${j.status === 'pago' ? '↺' : '✓'}</button>
+            <button data-action="delete" data-id="${j.id}" class="danger" title="Excluir">✕</button>
+          </div>
+        </td>
+      `;
+      list.appendChild(row);
+    });
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function render(){
+    renderNextPayment();
+    renderDashboard();
+    renderList();
+  }
+
+  // ---------- Events ----------
+  document.getElementById('fData').value = todayISO();
+  fillEloSelects();
+
+  document.getElementById('jobForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const numero = document.getElementById('fNumero').value.trim();
+    const cliente = document.getElementById('fCliente').value.trim();
+    const tipo = document.getElementById('fTipo').value;
+    const data = document.getElementById('fData').value;
+    const valor = document.getElementById('fValor').value;
+    const eloDe = document.getElementById('fEloDe').value;
+    const eloAte = document.getElementById('fEloAte').value;
+    const pdlAtual = document.getElementById('fPdlAtual').value;
+    const pdlGanho = document.getElementById('fPdlGanho').value;
+    const pdlDesejado = document.getElementById('fPdlDesejado').value;
+
+    if (!cliente || !data || !valor) return;
+
+    jobs.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      numero, cliente, tipo, data, valor, eloDe, eloAte,
+      pdlAtual: pdlAtual === '' ? null : parseFloat(pdlAtual),
+      pdlGanho: pdlGanho === '' ? null : parseFloat(pdlGanho),
+      pdlDesejado: pdlDesejado === '' ? null : parseFloat(pdlDesejado),
+      status: currentStatusInput
+    });
+
+    await saveJobs();
+    render();
+    showToast('Trampo adicionado.');
+
+    e.target.reset();
+    document.getElementById('fData').value = todayISO();
+    document.getElementById('fEloDe').value = 'Ferro IV';
+    document.getElementById('fEloAte').value = 'Ferro IV';
+  });
+
+  document.getElementById('jobList').addEventListener('click', async (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+    const job = jobs.find(j => j.id === id);
+    if (!job) return;
+
+    if (action === 'toggle'){
+      job.status = job.status === 'pago' ? 'pendente' : 'pago';
+      await saveJobs();
+      render();
+    } else if (action === 'delete'){
+      if (confirm('Excluir este trampo?')){
+        jobs = jobs.filter(j => j.id !== id);
+        await saveJobs();
+        render();
+        showToast('Trampo removido.');
+      }
+    }
+  });
+
+  document.querySelectorAll('.filters button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderList();
+    });
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', async () => {
+    if (confirm('Isso vai apagar todos os trampos salvos. Tem certeza?')){
+      jobs = [];
+      await saveJobs();
+      render();
+      showToast('Dados apagados.');
+    }
+  });
+
+  loadJobs();
+})();
+</script>
+
+</body>
+</html>
