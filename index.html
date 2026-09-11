@@ -133,7 +133,7 @@
 
   form.job-form{
     display:grid;
-    grid-template-columns: 0.7fr 1.7fr 1fr 1fr;
+    grid-template-columns: 0.6fr 1.3fr 0.85fr 0.7fr 0.85fr;
     gap:12px 14px;
     align-items:end;
   }
@@ -224,27 +224,32 @@
   }
 
   /* ---------- Table ---------- */
-  .job-row{
-    display:grid;
-    grid-template-columns: 1.05fr 1.3fr 0.65fr 0.7fr 1.1fr 0.95fr auto;
-    gap:10px;
-    align-items:center;
-    padding:13px 10px;
-    border-bottom:1px solid var(--border-soft);
+  .jobs-table{
+    width:100%;
+    border-collapse: collapse;
   }
-  .job-row.head{
+  .jobs-table thead th{
+    text-align:left;
     font-size:12px;
+    font-weight:500;
     color:var(--text-dim);
-    padding-bottom:8px;
+    padding:0 10px 8px 0;
     border-bottom:1px solid var(--border);
   }
-  .job-row:last-child{ border-bottom:none; }
+  .jobs-table tbody td{
+    padding:13px 10px 13px 0;
+    border-bottom:1px solid var(--border-soft);
+    vertical-align:middle;
+  }
+  .jobs-table tbody tr:last-child td{ border-bottom:none; }
+  .jobs-table th:last-child, .jobs-table td:last-child{ padding-right:0; }
   .cliente-name{
     color:var(--gold-bright);
     font-weight:600;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    max-width:220px;
   }
   .cliente-name .num{
     color: var(--text-dim);
@@ -252,6 +257,17 @@
     font-size:12.5px;
     margin-right:6px;
   }
+  .tipo-badge{
+    display:inline-block;
+    font-size:11px;
+    font-weight:600;
+    padding:2px 8px;
+    border-radius:10px;
+    margin-top:4px;
+  }
+  .tipo-badge.elo{ background:#0AC8B920; color:var(--teal); }
+  .tipo-badge.duo{ background:#9A4DE022; color:#C9A6F0; }
+  .tipo-badge.coach{ background:#C8A04622; color:var(--gold); }
   .elo-range{ display:flex; align-items:center; gap:6px; font-size:14px; flex-wrap:wrap;}
   .elo-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; flex-shrink:0; }
   .elo-arrow{ color:var(--text-dim); }
@@ -344,10 +360,35 @@
     .cards{ grid-template-columns: 1fr; }
     form.job-form{ grid-template-columns: 1fr 1fr; }
     .field.wide, .field.full, .btn-primary{ grid-column: 1 / -1; }
-    .job-row{ grid-template-columns: 1fr; gap:4px; padding:14px 10px; }
-    .job-row.head{ display:none; }
-    .job-row{ border:1px solid var(--border-soft); border-radius:10px; margin-bottom:10px; }
-    .row-actions{ justify-content:flex-start; margin-top:6px; }
+
+    .jobs-table thead{ display:none; }
+    .jobs-table, .jobs-table tbody, .jobs-table tr, .jobs-table td{ display:block; width:100%; }
+    .jobs-table tr{
+      border:1px solid var(--border-soft);
+      border-radius:10px;
+      margin-bottom:10px;
+      padding:12px 14px;
+    }
+    .jobs-table td{
+      border-bottom:none;
+      padding:5px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .jobs-table td::before{
+      content: attr(data-label);
+      font-size:12px;
+      color:var(--text-dim);
+      flex-shrink:0;
+    }
+    .jobs-table td.cell-cliente::before,
+    .jobs-table td.cell-actions::before{ content:none; }
+    .jobs-table td.cell-cliente{ justify-content:flex-start; }
+    .jobs-table td.cell-actions{ justify-content:flex-end; padding-top:10px; }
+    .cliente-name{ max-width:none; }
+
     header{ flex-direction:column; align-items:flex-start; }
     .next-payment{ text-align:left; }
   }
@@ -400,11 +441,19 @@
     <form class="job-form" id="jobForm">
       <div class="field">
         <label>Nº do trampo</label>
-        <input type="text" id="fNumero" placeholder="Ex: 1042">
+        <input type="text" id="fNumero" placeholder="Ex: 10432">
       </div>
       <div class="field">
         <label>Cliente</label>
         <input type="text" id="fCliente" placeholder="Nome do cliente" required>
+      </div>
+      <div class="field">
+        <label>Tipo</label>
+        <select id="fTipo">
+          <option value="Elo Job">Elo Job</option>
+          <option value="Duo Boost">Duo Boost</option>
+          <option value="Coach">Coach</option>
+        </select>
       </div>
       <div class="field">
         <label>Data</label>
@@ -452,17 +501,21 @@
       <button data-filter="pago">Concluídos</button>
     </div>
 
-    <div class="job-row head">
-      <div>Cliente</div>
-      <div>Elo</div>
-      <div>Valor</div>
-      <div>Data</div>
-      <div>Status</div>
-      <div>Jogos</div>
-      <div></div>
-    </div>
+    <table class="jobs-table">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Elo</th>
+          <th>Valor</th>
+          <th>Data</th>
+          <th>Status</th>
+          <th>Jogos</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="jobList"></tbody>
+    </table>
 
-    <div id="jobList"></div>
     <div class="empty-state" id="emptyState" style="display:none;">
       Nenhum trampo registrado ainda. Adicione o primeiro aí em cima.
     </div>
@@ -683,33 +736,40 @@
     empty.style.display = 'none';
 
     filtered.forEach(j => {
-      const row = document.createElement('div');
-      row.className = 'job-row';
+      const row = document.createElement('tr');
       const calc = calcGames(j);
       let jogosHtml;
       if (!calc){
-        jogosHtml = `<div class="jogos-cell empty">—</div>`;
+        jogosHtml = `<span class="jogos-cell empty">—</span>`;
       } else if (calc.games <= 0){
-        jogosHtml = `<div class="jogos-cell done">Meta batida</div>`;
+        jogosHtml = `<span class="jogos-cell done">Meta batida</span>`;
       } else {
-        jogosHtml = `<div class="jogos-cell">~${calc.games} jogos${calc.estimate ? ' <span class="est-mark" title="Estimativa: PDL para Mestre+ varia por servidor/temporada.">*</span>' : ''}</div>`;
+        const gamesShown = Math.max(0, calc.games);
+        jogosHtml = `<span class="jogos-cell">${gamesShown} jogos${calc.estimate ? ' <span class="est-mark" title="Estimativa: PDL para Mestre+ varia por servidor/temporada.">*</span>' : ''}</span>`;
       }
 
       row.innerHTML = `
-        <div class="cliente-name">${j.numero ? `<span class="num">#${escapeHtml(j.numero)}</span>` : ''}${escapeHtml(j.cliente)}</div>
-        <div class="elo-range">
-          <span class="elo-dot" style="background:${eloColor(j.eloDe)}"></span>${j.eloDe}
-          <span class="elo-arrow">→</span>
-          <span class="elo-dot" style="background:${eloColor(j.eloAte)}"></span>${j.eloAte}
-        </div>
-        <div class="valor">${fmtBRL(parseFloat(j.valor)||0)}</div>
-        <div class="data-cell">${fmtDateShort(j.data)}</div>
-        <div><span class="status-pill ${j.status}">${j.status === 'pago' ? 'Concluído' : 'Não concluído'}</span></div>
-        ${jogosHtml}
-        <div class="row-actions">
-          <button data-action="toggle" data-id="${j.id}" title="Alternar status">${j.status === 'pago' ? '↺' : '✓'}</button>
-          <button data-action="delete" data-id="${j.id}" class="danger" title="Excluir">✕</button>
-        </div>
+        <td class="cell-cliente">
+          <div class="cliente-name">${j.numero ? `<span class="num">#${escapeHtml(j.numero)}</span>` : ''}${escapeHtml(j.cliente)}</div>
+          ${j.tipo ? `<span class="tipo-badge ${j.tipo === 'Duo Boost' ? 'duo' : j.tipo === 'Coach' ? 'coach' : 'elo'}">${escapeHtml(j.tipo)}</span>` : ''}
+        </td>
+        <td data-label="Elo">
+          <span class="elo-range">
+            <span class="elo-dot" style="background:${eloColor(j.eloDe)}"></span>${j.eloDe}
+            <span class="elo-arrow">→</span>
+            <span class="elo-dot" style="background:${eloColor(j.eloAte)}"></span>${j.eloAte}
+          </span>
+        </td>
+        <td data-label="Valor"><span class="valor">${fmtBRL(parseFloat(j.valor)||0)}</span></td>
+        <td data-label="Data"><span class="data-cell">${fmtDateShort(j.data)}</span></td>
+        <td data-label="Status"><span class="status-pill ${j.status}">${j.status === 'pago' ? 'Concluído' : 'Não concluído'}</span></td>
+        <td data-label="Jogos">${jogosHtml}</td>
+        <td class="cell-actions">
+          <div class="row-actions">
+            <button data-action="toggle" data-id="${j.id}" title="Alternar status">${j.status === 'pago' ? '↺' : '✓'}</button>
+            <button data-action="delete" data-id="${j.id}" class="danger" title="Excluir">✕</button>
+          </div>
+        </td>
       `;
       list.appendChild(row);
     });
@@ -735,6 +795,7 @@
     e.preventDefault();
     const numero = document.getElementById('fNumero').value.trim();
     const cliente = document.getElementById('fCliente').value.trim();
+    const tipo = document.getElementById('fTipo').value;
     const data = document.getElementById('fData').value;
     const valor = document.getElementById('fValor').value;
     const eloDe = document.getElementById('fEloDe').value;
@@ -747,7 +808,7 @@
 
     jobs.push({
       id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
-      numero, cliente, data, valor, eloDe, eloAte,
+      numero, cliente, tipo, data, valor, eloDe, eloAte,
       pdlAtual: pdlAtual === '' ? null : parseFloat(pdlAtual),
       pdlGanho: pdlGanho === '' ? null : parseFloat(pdlGanho),
       pdlDesejado: pdlDesejado === '' ? null : parseFloat(pdlDesejado),
