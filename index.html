@@ -1431,7 +1431,7 @@
     const curMonth = today.getMonth();
     const curYear = today.getFullYear();
 
-    let totalConcluidos=0, totalNaoConcluidos=0, monthTotal=0, yearTotal=0, tipTotal=0, monthTips=0, allTimeTips=0;
+    let totalConcluidos=0, totalNaoConcluidos=0, monthTotal=0, yearTotal=0, tipTotal=0, monthTips=0, pendingTips=0;
 
     jobs.forEach(j => {
       const val = parseFloat(j.valor) || 0;
@@ -1442,13 +1442,16 @@
         return;
       }
 
-      totalConcluidos += val;
-
       const baseDate = dateOnly(j.dataConclusao) || j.data;
       const payKey = isoDate(getPaymentDate(baseDate));
 
-      if (payKey > todayKey) return;
+      if (payKey > todayKey){
+        // Ainda não passou a quarta de pagamento: continua contando como "Concluído" no Painel.
+        totalConcluidos += val;
+        return;
+      }
 
+      // Já passou a quarta: some do Painel e vira parte da Carteira (mensal/total).
       yearTotal += val;
       const pd = new Date(payKey + 'T00:00:00');
       if (pd.getFullYear() === curYear && pd.getMonth() === curMonth) monthTotal += val;
@@ -1457,9 +1460,12 @@
     tips.forEach(t => {
       const val = parseFloat(t.valor) || 0;
       const payKey = isoDate(getPaymentDate(t.data));
-      allTimeTips += val;
 
-      if (payKey > todayKey) return;
+      if (payKey > todayKey){
+        pendingTips += val;
+        totalConcluidos += val;
+        return;
+      }
 
       yearTotal += val;
       tipTotal += val;
@@ -1470,10 +1476,10 @@
       }
     });
 
-    document.getElementById('totalConcluidos').textContent = fmtBRL(totalConcluidos + allTimeTips);
-    document.getElementById('concluidosTips').textContent = fmtBRL(allTimeTips);
+    document.getElementById('totalConcluidos').textContent = fmtBRL(totalConcluidos);
+    document.getElementById('concluidosTips').textContent = fmtBRL(pendingTips);
     document.getElementById('totalNaoConcluidos').textContent = fmtBRL(totalNaoConcluidos);
-    document.getElementById('totalGeral').textContent = fmtBRL(totalConcluidos + allTimeTips + totalNaoConcluidos);
+    document.getElementById('totalGeral').textContent = fmtBRL(totalConcluidos + totalNaoConcluidos);
 
     document.getElementById('monthTotal').textContent = fmtBRL(monthTotal);
     document.getElementById('yearTotal').textContent = fmtBRL(yearTotal);
