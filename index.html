@@ -5,29 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Central de Boosts</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Rajdhani:wght@400;500;600;700&display=swap');
 
   :root{
-    --bg: #091428;
-    --bg-panel: #0B1E30;
-    --bg-panel-2: #0F273D;
-    --bg-input: #0A1C2C;
-    --border: #1E3F55;
-    --border-soft: #16324690;
-    --gold: #C8A046;
-    --gold-bright: #F0E6D2;
-    --teal: #0AC8B9;
-    --text: #B9C4CC;
-    --text-dim: #62777F;
+    --bg: #0A0A0A;
+    --bg-panel: #141414;
+    --bg-panel-2: #1A1A1A;
+    --bg-input: #161616;
+    --border: #262626;
+    --border-soft: #26262670;
+    --gold: #E3242B;
+    --gold-bright: #FFFFFF;
+    --teal: #D6D6D6;
+    --text: #C7C7C7;
+    --text-dim: #7A7A7A;
     --red: #C9414F;
-    --green: #2BAE7A;
+    --green: #B5B5B5;
   }
 
   *{ box-sizing:border-box; }
 
   html,body{
     margin:0; padding:0;
-    background: radial-gradient(1200px 600px at 15% -10%, #0E2438 0%, var(--bg) 55%) fixed;
+    background: radial-gradient(1200px 600px at 15% -10%, #241012 0%, var(--bg) 55%) fixed;
     color: var(--text);
     font-family:'Rajdhani', sans-serif;
     font-size:16px;
@@ -35,9 +35,10 @@
   }
 
   h1,h2,h3, .display{
-    font-family:'Cinzel', serif;
+    font-family:'Archivo Black', sans-serif;
     color: var(--gold-bright);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
     margin:0;
   }
 
@@ -66,7 +67,7 @@
     font-size:15px;
   }
   .next-payment{
-    background: linear-gradient(135deg, #14304430, #0AC8B915);
+    background: linear-gradient(135deg, #26262630, #D6D6D615);
     border:1px solid var(--border);
     border-radius:10px;
     padding:10px 18px;
@@ -75,6 +76,67 @@
   }
   .next-payment .label{ font-size:12px; color:var(--text-dim); }
   .next-payment .date{ font-size:17px; color:var(--teal); font-weight:600; }
+
+  .nav-tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:26px;
+  }
+  .nav-tab{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    padding:9px 20px;
+    border-radius:9px;
+    font-family:'Archivo Black', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition: all 0.15s;
+  }
+  .nav-tab.active{
+    border-color: var(--gold);
+    color: var(--gold-bright);
+    background: #E3242B18;
+  }
+  .cards-carteira{ grid-template-columns: repeat(3, 1fr); max-width:none; }
+  .cards-carteira .card-value{ font-size:24px; }
+  @media (max-width: 900px){ .cards-carteira{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px){ .cards-carteira{ grid-template-columns: 1fr; } }
+
+  .card-tip-form::before{ background: linear-gradient(90deg, var(--teal), var(--gold)); }
+  .tip-form{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:8px;
+  }
+  .tip-form input, .tip-form select{
+    width:100%;
+    min-width:0;
+    background: var(--bg-input);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 10px;
+    color: var(--gold-bright);
+    font-family:'Rajdhani', sans-serif;
+    font-size:15px;
+    font-weight:500;
+  }
+  .tip-form input:focus, .tip-form select:focus{ outline:none; border-color: var(--teal); }
+  .btn-tip{
+    border:none;
+    border-radius:8px;
+    background: linear-gradient(135deg, var(--gold), #8A1418);
+    color:#FFFFFF;
+    font-family:'Rajdhani', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:8px 14px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn-tip:hover{ filter:brightness(1.08); }
 
   @keyframes fadeIn{ from{opacity:0; transform:translateY(-6px);} to{opacity:1; transform:translateY(0);} }
 
@@ -105,7 +167,7 @@
     text-transform: none;
   }
   .card .card-value{
-    font-family:'Cinzel', serif;
+    font-family:'Archivo Black', sans-serif;
     font-size:26px;
     color:var(--gold-bright);
     margin-top:6px;
@@ -133,7 +195,7 @@
 
   form.job-form{
     display:grid;
-    grid-template-columns: 0.6fr 1.3fr 0.85fr 0.7fr 0.85fr;
+    grid-template-columns: 0.6fr 1.6fr 1fr 1fr;
     gap:12px 14px;
     align-items:end;
   }
@@ -174,10 +236,10 @@
     transition: background 0.15s, color 0.15s, border-color 0.15s;
   }
   .status-toggle button.active[data-status="pendente"]{
-    background:#C8A04622; border-color:var(--gold); color:var(--gold-bright);
+    background:#E3242B22; border-color:var(--gold); color:var(--gold-bright);
   }
   .status-toggle button.active[data-status="pago"]{
-    background:#2BAE7A22; border-color:var(--green); color:#7CE0B4;
+    background:#B5B5B522; border-color:var(--green); color:#E0E0E0;
   }
 
   .btn-primary{
@@ -186,9 +248,9 @@
     padding:12px;
     border-radius:9px;
     border:none;
-    background: linear-gradient(135deg, var(--gold), #9C7A2E);
-    color:#0B1E30;
-    font-family:'Cinzel', serif;
+    background: linear-gradient(135deg, var(--gold), #8A1418);
+    color:#FFFFFF;
+    font-family:'Archivo Black', sans-serif;
     font-weight:600;
     font-size:15px;
     cursor:pointer;
@@ -197,6 +259,31 @@
   }
   .btn-primary:hover{ filter:brightness(1.08); }
   .btn-primary:active{ transform: scale(0.99); }
+
+  /* ---------- Search ---------- */
+  .search-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background: var(--bg-input);
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:9px 14px;
+    margin-bottom:14px;
+  }
+  .search-box svg{ color:var(--text-dim); flex-shrink:0; }
+  .search-box input{
+    flex:1;
+    min-width:0;
+    background:none;
+    border:none;
+    outline:none;
+    color: var(--gold-bright);
+    font-family:'Rajdhani', sans-serif;
+    font-size:15px;
+    font-weight:500;
+  }
+  .search-box input::placeholder{ color: var(--text-dim); }
 
   /* ---------- Filters ---------- */
   .filters{
@@ -220,7 +307,199 @@
   .filters button.active{
     border-color: var(--teal);
     color: var(--teal);
-    background: #0AC8B914;
+    background: #D6D6D614;
+  }
+
+  /* ---------- Contas ---------- */
+  .conta-form{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:12px 14px;
+    align-items:end;
+  }
+  .contas-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap:12px;
+  }
+  .conta-card{
+    background: var(--bg-panel-2);
+    border:1px solid var(--border);
+    border-left:3px solid var(--gold);
+    border-radius:6px;
+    padding:12px 40px 12px 14px;
+    margin-bottom:0;
+    position:relative;
+  }
+  .conta-elo{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    color: var(--text-dim);
+    margin-bottom:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .conta-elo-select{
+    flex:1;
+    background:none;
+    border:none;
+    color: var(--gold-bright);
+    font-family:'Rajdhani', sans-serif;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    padding:2px 0;
+  }
+  .conta-elo-select:focus{ outline:none; }
+  .conta-card .conta-delete{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    width:26px;
+    height:26px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:12px;
+  }
+  .conta-card .conta-delete:hover{ border-color:var(--red); color:var(--red); }
+  .conta-field{ margin-bottom:12px; }
+  .conta-field:last-child{ margin-bottom:0; }
+  .conta-field .cf-label{
+    font-size:11px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:6px;
+  }
+  .conta-field .cf-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .conta-field .cf-value{
+    flex:1;
+    min-width:0;
+    background: var(--bg-input);
+    border:1px solid var(--border-soft);
+    border-radius:6px;
+    padding:7px 10px;
+    color: var(--gold-bright);
+    font-family:'Rajdhani', sans-serif;
+    font-size:13.5px;
+    font-weight:500;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    letter-spacing: 0.03em;
+  }
+  .conta-field .cf-btn{
+    background: var(--bg-input);
+    border:1px solid var(--border-soft);
+    color: var(--text-dim);
+    width:30px;
+    height:30px;
+    border-radius:6px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    transition: all 0.15s;
+  }
+  .conta-field .cf-btn:hover{ border-color: var(--teal); color: var(--teal); }
+
+  /* ---------- Job cards ---------- */
+  .jobs-cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap:12px;
+  }
+  .job-card{
+    background: var(--bg-panel-2);
+    border:1px solid var(--border);
+    border-left:3px solid var(--gold);
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .job-card.done{ border-left-color: var(--green); }
+  .job-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .job-card-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:8px;
+    margin-top:4px;
+    padding-top:8px;
+    border-top:1px solid var(--border-soft);
+  }
+
+  /* ---------- Elo stats ---------- */
+  .elo-stats-note{
+    font-size:13px;
+    color:var(--text-dim);
+    margin-bottom:16px;
+  }
+  .elo-stats-scroll{
+    overflow-x:auto;
+  }
+  .elo-stats-table{
+    border-collapse: collapse;
+    width:100%;
+    min-width:760px;
+  }
+  .elo-stats-table th, .elo-stats-table td{
+    padding:10px 12px;
+    text-align:center;
+    border-bottom:1px solid var(--border-soft);
+    font-size:13px;
+    white-space:nowrap;
+  }
+  .elo-stats-table thead th{
+    color:var(--text-dim);
+    font-weight:500;
+    font-size:11.5px;
+    border-bottom:1px solid var(--border);
+  }
+  .elo-stats-table thead th .elo-dot{
+    margin-right:5px;
+    vertical-align:middle;
+  }
+  .elo-stats-table td:first-child, .elo-stats-table th:first-child{
+    text-align:left;
+    position:sticky;
+    left:0;
+    background: var(--bg-panel);
+    font-weight:600;
+    color: var(--gold-bright);
+  }
+  .elo-stats-table tbody td{
+    color: var(--text);
+    font-weight:600;
+  }
+  .elo-stats-table tbody tr:last-child td{
+    border-top:1px solid var(--border);
+    border-bottom:none;
+    background:#E3242B14;
+    color: var(--gold);
+    font-weight:700;
+  }
+  .elo-stats-table td:last-child, .elo-stats-table th:last-child{
+    background:#E3242B14;
+    color: var(--gold);
+    font-weight:700;
   }
 
   /* ---------- Table ---------- */
@@ -265,9 +544,10 @@
     border-radius:10px;
     margin-top:4px;
   }
-  .tipo-badge.elo{ background:#0AC8B920; color:var(--teal); }
-  .tipo-badge.duo{ background:#9A4DE022; color:#C9A6F0; }
-  .tipo-badge.coach{ background:#C8A04622; color:var(--gold); }
+  .tipo-badge.elo{ background:#D6D6D620; color:var(--teal); }
+  .tipo-badge.duo{ background:#E3242B22; color:var(--gold); }
+  .tipo-badge.coach{ background:#F4C87422; color:#F4C874; }
+  .tipo-badge.banida{ background:#C9414F22; color:var(--red); }
   .elo-range{ display:flex; align-items:center; gap:6px; font-size:14px; flex-wrap:wrap;}
   .elo-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; flex-shrink:0; }
   .elo-arrow{ color:var(--text-dim); }
@@ -282,8 +562,8 @@
     width:fit-content;
     white-space:nowrap;
   }
-  .status-pill.pendente{ background:#C8A04622; color:var(--gold); }
-  .status-pill.pago{ background:#2BAE7A22; color:var(--green); }
+  .status-pill.pendente{ background:#E3242B22; color:var(--gold); }
+  .status-pill.pago{ background:#B5B5B522; color:var(--green); }
   .jogos-cell{ font-size:13.5px; color:var(--teal); font-weight:600; white-space:nowrap; }
   .jogos-cell.done{ color:var(--green); }
   .jogos-cell.empty{ color:var(--text-dim); font-weight:400; }
@@ -309,9 +589,15 @@
     cursor:pointer;
     font-size:14px;
     transition: all 0.15s;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
   }
   .row-actions button:hover{ border-color: var(--teal); color: var(--teal); }
   .row-actions button.danger:hover{ border-color: var(--red); color: var(--red); }
+  .row-actions button.ban-active{ border-color: var(--red); color: var(--red); background:#C9414F14; }
+  tr.row-banida{ background: #C9414F0d; }
+  tr.row-banida .cliente-link{ color: var(--red); }
 
   .empty-state{
     text-align:center;
@@ -336,8 +622,143 @@
     cursor:pointer;
     font-family:'Rajdhani', sans-serif;
     font-size:13px;
+    margin-left:14px;
   }
+  .footer-actions button:first-of-type{ margin-left:0; }
   .footer-actions button:hover{ color: var(--red); }
+
+  .cliente-link{
+    background:none;
+    border:none;
+    padding:0;
+    font-family:'Rajdhani', sans-serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--gold-bright);
+    cursor:pointer;
+    text-align:left;
+  }
+  .cliente-link:hover{ color: var(--teal); text-decoration: underline; }
+  .row-stars{ font-size:13px; color:var(--gold); letter-spacing:1px; }
+
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:#000000cc;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:60;
+  }
+  .modal-backdrop.show{ display:flex; }
+  .modal{
+    background: var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    width:100%;
+    max-width:660px;
+    max-height:88vh;
+    overflow-y:auto;
+    padding:24px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .modal::-webkit-scrollbar{ width:6px; }
+  .modal::-webkit-scrollbar-track{ background:transparent; }
+  .modal::-webkit-scrollbar-thumb{ background: var(--border); border-radius:10px; }
+  .modal::-webkit-scrollbar-thumb:hover{ background: var(--gold); }
+  .modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:14px;
+    margin-bottom:18px;
+  }
+  .modal-head h2{ font-size:21px; }
+  .modal-head .sub{ font-size:13px; color:var(--text-dim); margin-top:4px; }
+  .modal-close{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    width:32px; height:32px;
+    border-radius:8px;
+    cursor:pointer;
+    flex-shrink:0;
+    font-size:15px;
+  }
+  .modal-close:hover{ border-color:var(--red); color:var(--red); }
+  .detail-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+    margin-bottom:20px;
+  }
+  .detail-item .dl{ font-size:12px; color:var(--text-dim); }
+  .detail-item .dv{ font-size:15px; color:var(--gold-bright); font-weight:600; margin-top:3px; }
+  .modal-section{
+    background: var(--bg-panel-2);
+    border:1px solid var(--border-soft);
+    border-left:3px solid var(--gold);
+    border-radius:6px;
+    padding:16px 18px;
+    margin-top:16px;
+  }
+  .modal-section h3{
+    font-size:13px;
+    margin-bottom:14px;
+    color: var(--text-dim);
+    letter-spacing:0.06em;
+  }
+  .modal-section:nth-of-type(2){ border-left-color: var(--teal); }
+  .modal-section:nth-of-type(3){ border-left-color: var(--green); }
+  .modal-section:nth-of-type(4){ border-left-color: var(--gold); }
+  .modal-section .detail-grid{ margin-bottom:0; }
+  .stars{ display:flex; gap:6px; margin-bottom:6px; }
+  .stars button{
+    background:none;
+    border:none;
+    font-size:26px;
+    line-height:1;
+    color:var(--border);
+    cursor:pointer;
+    padding:0;
+    transition: color 0.12s, transform 0.12s;
+  }
+  .stars button:hover{ transform: scale(1.12); }
+  .stars button.on{ color:var(--gold); }
+  .stars-hint{ font-size:12px; color:var(--text-dim); }
+  .modal textarea{
+    width:100%;
+    min-height:90px;
+    resize:vertical;
+    background: var(--bg-input);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:10px;
+    color: var(--gold-bright);
+    font-family:'Rajdhani', sans-serif;
+    font-size:15px;
+  }
+  .modal textarea:focus{ outline:none; border-color: var(--teal); }
+  .modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:18px;
+  }
+  .btn-save{
+    padding:10px 22px;
+    border-radius:9px;
+    border:none;
+    background: linear-gradient(135deg, var(--gold), #8A1418);
+    color:#FFFFFF;
+    font-family:'Archivo Black', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .btn-save:hover{ filter:brightness(1.08); }
 
   .toast{
     position:fixed;
@@ -359,6 +780,7 @@
   @media (max-width: 700px){
     .cards{ grid-template-columns: 1fr; }
     form.job-form{ grid-template-columns: 1fr 1fr; }
+    .conta-form{ grid-template-columns: 1fr; }
     .field.wide, .field.full, .btn-primary{ grid-column: 1 / -1; }
 
     .jobs-table thead{ display:none; }
@@ -391,7 +813,18 @@
 
     header{ flex-direction:column; align-items:flex-start; }
     .next-payment{ text-align:left; }
+    .detail-grid{ grid-template-columns: 1fr; }
+    .modal{ padding:18px; }
   }
+  /* ---------- Cantos retos (estilo editorial) ---------- */
+  .sidebar, .card, .panel, .next-payment, .nav-tab, .field input, .field select,
+  .btn-primary, .btn-save, .btn-tip, .status-pill, .tipo-badge, .modal, .modal-close,
+  .row-actions button, .jobs-table tr, .filters button, .tip-form input, .tip-form select,
+  .stars button, .toast{
+    border-radius: 3px !important;
+  }
+  .card::before{ border-radius:0; }
+  .job-card{ border-radius: 3px; }
 </style>
 </head>
 <body>
@@ -409,30 +842,28 @@
     </div>
   </header>
 
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-view="painel">Painel</button>
+    <button class="nav-tab" data-view="carteira">Carteira</button>
+    <button class="nav-tab" data-view="elos">Métricas</button>
+    <button class="nav-tab" data-view="contas">Contas</button>
+  </div>
+
+  <div id="viewPainel">
+
   <div class="cards">
     <div class="card">
-      <div class="card-label">Semana atual</div>
-      <div class="card-value" id="weekTotal">R$ 0,00</div>
-      <div class="card-sub">
-        <span>Concluído: <b id="weekPaid">R$ 0,00</b></span>
-        <span>Não concluído: <b id="weekPending">R$ 0,00</b></span>
-      </div>
+      <div class="card-label">Concluídos</div>
+      <div class="card-value" id="totalConcluidos">R$ 0,00</div>
+      <div class="card-sub"><span>Gorjetas: <b id="concluidosTips">R$ 0,00</b></span></div>
     </div>
     <div class="card">
-      <div class="card-label">Este mês</div>
-      <div class="card-value" id="monthTotal">R$ 0,00</div>
-      <div class="card-sub">
-        <span>Concluído: <b id="monthPaid">R$ 0,00</b></span>
-        <span>Não concluído: <b id="monthPending">R$ 0,00</b></span>
-      </div>
+      <div class="card-label">Não concluídos</div>
+      <div class="card-value" id="totalNaoConcluidos">R$ 0,00</div>
     </div>
     <div class="card">
-      <div class="card-label">Este ano</div>
-      <div class="card-value" id="yearTotal">R$ 0,00</div>
-      <div class="card-sub">
-        <span>Concluído: <b id="yearPaid">R$ 0,00</b></span>
-        <span>Não concluído: <b id="yearPending">R$ 0,00</b></span>
-      </div>
+      <div class="card-label">Total</div>
+      <div class="card-value" id="totalGeral">R$ 0,00</div>
     </div>
   </div>
 
@@ -454,10 +885,6 @@
           <option value="Duo Boost">Duo Boost</option>
           <option value="Coach">Coach</option>
         </select>
-      </div>
-      <div class="field">
-        <label>Data</label>
-        <input type="date" id="fData" required>
       </div>
       <div class="field">
         <label>Valor a receber</label>
@@ -485,9 +912,6 @@
         <label>PDL desejado no elo final</label>
         <input type="number" id="fPdlDesejado" placeholder="Ex: 100">
       </div>
-      <div class="field-note full">
-        Preenchendo esses campos, calculo sozinho quantos jogos faltam pra bater a meta. "PDL desejado" é quanto de PDL a conta precisa ter dentro do elo final (deixe em branco se for só entrar no elo, ou seja, 0 PDL). Se o elo de início for Mestre, Grão-Mestre ou Desafiante, coloque em "PDL atual" o total de PDL da conta (esses ranques não têm divisão fixa de 100).
-      </div>
 
       <button type="submit" class="btn-primary">Adicionar trampo</button>
     </form>
@@ -495,9 +919,13 @@
 
   <div class="panel">
     <h2>Meus trampos</h2>
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchJobs" placeholder="Buscar por cliente, número ou elo...">
+    </div>
     <div class="filters">
-      <button class="active" data-filter="todos">Todos</button>
-      <button data-filter="pendente">Não concluídos</button>
+      <button data-filter="todos">Todos</button>
+      <button class="active" data-filter="pendente">Não concluídos</button>
       <button data-filter="pago">Concluídos</button>
     </div>
 
@@ -519,14 +947,233 @@
     <div class="empty-state" id="emptyState" style="display:none;">
       Nenhum trampo registrado ainda. Adicione o primeiro aí em cima.
     </div>
-    <div class="calc-legend">* estimativa: PDL para Mestre, Grão-Mestre e Desafiante varia por servidor/temporada, já que não têm divisões fixas.</div>
 
     <div class="footer-actions">
       <span id="jobCount">0 trampos</span>
-      <button id="resetBtn">Apagar todos os dados</button>
+      <span>
+        <button id="exportBtn">Exportar dados</button>
+        <button id="importBtn">Importar dados</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none;">
+        <button id="resetBtn">Apagar todos os dados</button>
+      </span>
     </div>
   </div>
 
+  </div>
+
+  <div id="viewCarteira" style="display:none;">
+    <div class="cards cards-carteira">
+      <div class="card">
+        <div class="card-label">Saldo mensal</div>
+        <div class="card-value" id="monthTotal">R$ 0,00</div>
+        <div class="card-sub"><span>Gorjetas: <b id="monthTips">R$ 0,00</b></span></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Saldo total</div>
+        <div class="card-value" id="yearTotal">R$ 0,00</div>
+        <div class="card-sub"><span>Gorjetas: <b id="yearTips">R$ 0,00</b></span></div>
+      </div>
+      <div class="card card-tip-form">
+        <div class="card-label">Adicionar gorjeta</div>
+        <form class="tip-form" id="tipForm">
+          <select id="fTipCliente" required>
+            <option value="" disabled selected>Selecione o cliente</option>
+          </select>
+          <input type="number" id="fTipValor" placeholder="0,00" step="0.01" min="0" required>
+          <button type="submit" class="btn-tip">Adicionar</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Histórico</h2>
+      <div class="search-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchHistory" placeholder="Buscar por cliente, número ou elo...">
+      </div>
+      <table class="jobs-table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Elo</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tipList"></tbody>
+      </table>
+      <div class="empty-state" id="tipEmptyState">Nada registrado ainda.</div>
+    </div>
+  </div>
+
+  <div id="viewElos" style="display:none;">
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Trampos na semana</div>
+      <div class="card-value" id="jobsWeekCount">0</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Trampos no mês</div>
+      <div class="card-value" id="jobsMonthCount">0</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Total de trampos</div>
+      <div class="card-value" id="jobsTotalCount">0</div>
+    </div>
+  </div>
+
+    <div class="panel">
+      <h2>Trampos por elo</h2>
+      <p class="elo-stats-note">Quantos trampos você já fez, por tipo de serviço e elo de início da conta.</p>
+      <div class="elo-stats-scroll">
+        <table class="elo-stats-table" id="eloStatsTable"></table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Valor recebido por elo</h2>
+      <p class="elo-stats-note">Quanto você já recebeu (trampos concluídos), por tipo de serviço e elo de início.</p>
+      <div class="elo-stats-scroll">
+        <table class="elo-stats-table" id="eloValueTable"></table>
+      </div>
+    </div>
+  </div>
+
+  <div id="viewContas" style="display:none;">
+    <div class="panel">
+      <h2>Nova conta</h2>
+      <form class="conta-form" id="contaForm">
+        <div class="field">
+          <label>Nick (opcional)</label>
+          <input type="text" id="fContaNick" placeholder="Ex: Faker#1234">
+        </div>
+        <div class="field">
+          <label>Login</label>
+          <input type="text" id="fContaLogin" placeholder="Usuário" required>
+        </div>
+        <div class="field">
+          <label>Senha</label>
+          <input type="text" id="fContaSenha" placeholder="Senha" required>
+        </div>
+        <div class="field">
+          <label>Elo atual</label>
+          <select id="fContaElo"></select>
+        </div>
+        <button type="submit" class="btn-primary">Adicionar conta</button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>Contas salvas</h2>
+      <div class="contas-grid" id="contasList"></div>
+      <div class="empty-state" id="contasEmptyState">Nenhuma conta cadastrada ainda.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="mCliente">Cliente</h2>
+        <div class="sub" id="mSub"></div>
+      </div>
+      <button class="modal-close" id="mClose" title="Fechar">✕</button>
+    </div>
+
+    <div class="modal-section">
+      <h3>Editar trampo</h3>
+      <div class="detail-grid">
+        <div class="field">
+          <label>Nº do trampo</label>
+          <input type="text" id="mNumero">
+        </div>
+        <div class="field">
+          <label>Cliente</label>
+          <input type="text" id="mClienteEdit" required>
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <select id="mTipo">
+            <option value="Elo Job">Elo Job</option>
+            <option value="Duo Boost">Duo Boost</option>
+            <option value="Coach">Coach</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Valor a receber</label>
+          <input type="number" id="mValorEdit" step="0.01" min="0">
+        </div>
+        <div class="field">
+          <label>Elo de</label>
+          <select id="mEloDe"></select>
+        </div>
+        <div class="field">
+          <label>Elo até</label>
+          <select id="mEloAte"></select>
+        </div>
+        <div class="field">
+          <label>PDL atual</label>
+          <input type="number" id="mPdlAtualEdit">
+        </div>
+        <div class="field">
+          <label>PDL ganho por partida</label>
+          <input type="number" id="mPdlGanhoEdit">
+        </div>
+        <div class="field">
+          <label>PDL desejado</label>
+          <input type="number" id="mPdlDesejadoEdit">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Resumo</h3>
+      <div class="detail-grid">
+        <div class="detail-item"><div class="dl">Data de início</div><div class="dv" id="mData">—</div></div>
+        <div class="detail-item"><div class="dl">Jogos estimados</div><div class="dv" id="mJogos">—</div></div>
+        <div class="detail-item"><div class="dl">Status</div><div class="dv" id="mStatus">—</div></div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Contato do cliente</h3>
+      <div class="detail-grid" style="margin-bottom:0;">
+        <div class="field">
+          <label>Nick</label>
+          <input type="text" id="mNick" placeholder="Ex: Faker#1234">
+        </div>
+        <div class="field">
+          <label>WhatsApp / Discord</label>
+          <input type="text" id="mContato" placeholder="Ex: (11) 91234-5678 ou usuário#0000">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Avaliação do cliente</h3>
+      <div class="stars" id="mStars">
+        <button data-star="1">★</button>
+        <button data-star="2">★</button>
+        <button data-star="3">★</button>
+        <button data-star="4">★</button>
+        <button data-star="5">★</button>
+      </div>
+      <div class="stars-hint" id="mStarsHint">Clique nas estrelas para avaliar. Clique na mesma estrela de novo para limpar.</div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Comentário</h3>
+      <textarea id="mComentario" placeholder="Anotações sobre o cliente: como foi o contato, se pagou certinho, se pediu algo diferente..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" id="mSave">Salvar</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -567,15 +1214,27 @@
     return found ? found.color : '#888';
   }
 
+  function eloLabel(eloStr, pdl){
+    const hasPdl = pdl !== null && pdl !== undefined && pdl !== '';
+    return `${eloStr} (${hasPdl ? pdl : 0})`;
+  }
+
   function fillEloSelects(){
     const de = document.getElementById('fEloDe');
     const ate = document.getElementById('fEloAte');
+    const mde = document.getElementById('mEloDe');
+    const mate = document.getElementById('mEloAte');
+    const contaElo = document.getElementById('fContaElo');
     ELO_LIST.forEach(e => {
       de.appendChild(new Option(e, e));
       ate.appendChild(new Option(e, e));
+      mde.appendChild(new Option(e, e));
+      mate.appendChild(new Option(e, e));
+      contaElo.appendChild(new Option(e, e));
     });
     de.value = 'Ferro IV';
     ate.value = 'Ferro IV';
+    contaElo.value = 'Ferro IV';
   }
 
   // ---------- Calculadora de jogos (PDL) ----------
@@ -620,6 +1279,22 @@
   // ---------- Date helpers ----------
   function isoDate(d){ return d.toISOString().slice(0,10); }
   function todayISO(){ return isoDate(new Date()); }
+  function nowDateTime(){
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+  function nowTime(){
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+  function dateOnly(str){ return str ? str.split('T')[0] : str; }
+  function fmtDateTime(str){
+    const [datePart, timePart] = str.split('T');
+    const dateStr = fmtDateShort(datePart);
+    return timePart ? `${dateStr} às ${timePart}` : dateStr;
+  }
 
   // Returns the Wednesday (as Date) that closes the payment cycle containing `dateStr`.
   // Cycle runs Thu -> Wed. If date IS a Wednesday, that same day is the payment date.
@@ -645,7 +1320,24 @@
 
   // ---------- State ----------
   let jobs = [];
-  let currentFilter = 'todos';
+  let tips = [];
+  let contas = [];
+  let revealedSenhas = new Set();
+  let currentFilter = 'pendente';
+  let searchJobsQuery = '';
+  let searchHistoryQuery = '';
+
+  function jobMatchesSearch(j, q){
+    if (!q) return true;
+    const hay = `${j.cliente} ${j.numero || ''} ${j.eloDe} ${j.eloAte}`.toLowerCase();
+    return hay.includes(q.toLowerCase());
+  }
+
+  function tipMatchesSearch(t, q){
+    if (!q) return true;
+    const hay = `${t.cliente || ''} gorjeta`.toLowerCase();
+    return hay.includes(q.toLowerCase());
+  }
   let currentStatusInput = 'pendente';
 
   function loadJobs(){
@@ -655,6 +1347,18 @@
     } catch(e){
       jobs = [];
     }
+    try{
+      const rawTips = localStorage.getItem('boost_tips');
+      tips = rawTips ? JSON.parse(rawTips) : [];
+    } catch(e){
+      tips = [];
+    }
+    try{
+      const rawContas = localStorage.getItem('boost_contas');
+      contas = rawContas ? JSON.parse(rawContas) : [];
+    } catch(e){
+      contas = [];
+    }
     render();
   }
 
@@ -663,6 +1367,48 @@
       localStorage.setItem('boost_jobs', JSON.stringify(jobs));
     } catch(e){
       showToast('Não consegui salvar. Tente novamente.');
+    }
+  }
+
+  function saveTips(){
+    try{
+      localStorage.setItem('boost_tips', JSON.stringify(tips));
+    } catch(e){
+      showToast('Não consegui salvar. Tente novamente.');
+    }
+  }
+
+  function saveContas(){
+    try{
+      localStorage.setItem('boost_contas', JSON.stringify(contas));
+    } catch(e){
+      showToast('Não consegui salvar. Tente novamente.');
+    }
+  }
+
+  function copyText(text){
+    if (!text) return;
+    const done = () => showToast('Copiado!');
+    const fallback = () => {
+      try{
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        done();
+      } catch(e){
+        showToast('Não consegui copiar.');
+      }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else {
+      fallback();
     }
   }
 
@@ -681,39 +1427,195 @@
 
   function renderDashboard(){
     const today = new Date();
-    const currentWeekKey = isoDate(getPaymentDate(todayISO()));
+    const todayKey = todayISO();
     const curMonth = today.getMonth();
     const curYear = today.getFullYear();
 
-    let weekPaid=0, weekPending=0, monthPaid=0, monthPending=0, yearPaid=0, yearPending=0;
+    let totalConcluidos=0, totalNaoConcluidos=0, monthTotal=0, yearTotal=0, tipTotal=0, monthTips=0, allTimeTips=0;
 
     jobs.forEach(j => {
-      const jd = new Date(j.data + 'T00:00:00');
       const val = parseFloat(j.valor) || 0;
-      const isPaid = j.status === 'pago';
+      const isDone = j.status === 'pago';
 
-      if (isoDate(getPaymentDate(j.data)) === currentWeekKey){
-        if (isPaid) weekPaid += val; else weekPending += val;
+      if (!isDone){
+        totalNaoConcluidos += val;
+        return;
       }
-      if (jd.getFullYear() === curYear){
-        if (jd.getMonth() === curMonth){
-          if (isPaid) monthPaid += val; else monthPending += val;
-        }
-        if (isPaid) yearPaid += val; else yearPending += val;
+
+      totalConcluidos += val;
+
+      const baseDate = dateOnly(j.dataConclusao) || j.data;
+      const payKey = isoDate(getPaymentDate(baseDate));
+
+      if (payKey > todayKey) return;
+
+      yearTotal += val;
+      const pd = new Date(payKey + 'T00:00:00');
+      if (pd.getFullYear() === curYear && pd.getMonth() === curMonth) monthTotal += val;
+    });
+
+    tips.forEach(t => {
+      const val = parseFloat(t.valor) || 0;
+      const payKey = isoDate(getPaymentDate(t.data));
+      allTimeTips += val;
+
+      if (payKey > todayKey) return;
+
+      yearTotal += val;
+      tipTotal += val;
+      const pd = new Date(payKey + 'T00:00:00');
+      if (pd.getFullYear() === curYear && pd.getMonth() === curMonth){
+        monthTotal += val;
+        monthTips += val;
       }
     });
 
-    document.getElementById('weekTotal').textContent = fmtBRL(weekPaid + weekPending);
-    document.getElementById('weekPaid').textContent = fmtBRL(weekPaid);
-    document.getElementById('weekPending').textContent = fmtBRL(weekPending);
+    document.getElementById('totalConcluidos').textContent = fmtBRL(totalConcluidos + allTimeTips);
+    document.getElementById('concluidosTips').textContent = fmtBRL(allTimeTips);
+    document.getElementById('totalNaoConcluidos').textContent = fmtBRL(totalNaoConcluidos);
+    document.getElementById('totalGeral').textContent = fmtBRL(totalConcluidos + allTimeTips + totalNaoConcluidos);
 
-    document.getElementById('monthTotal').textContent = fmtBRL(monthPaid + monthPending);
-    document.getElementById('monthPaid').textContent = fmtBRL(monthPaid);
-    document.getElementById('monthPending').textContent = fmtBRL(monthPending);
+    document.getElementById('monthTotal').textContent = fmtBRL(monthTotal);
+    document.getElementById('yearTotal').textContent = fmtBRL(yearTotal);
+    document.getElementById('monthTips').textContent = fmtBRL(monthTips);
+    document.getElementById('yearTips').textContent = fmtBRL(tipTotal);
+  }
 
-    document.getElementById('yearTotal').textContent = fmtBRL(yearPaid + yearPending);
-    document.getElementById('yearPaid').textContent = fmtBRL(yearPaid);
-    document.getElementById('yearPending').textContent = fmtBRL(yearPending);
+  function buildJobRow(j){
+    const row = document.createElement('tr');
+    const calc = calcGames(j);
+    let jogosHtml;
+    if (!calc){
+      jogosHtml = `<span class="jogos-cell empty">—</span>`;
+    } else if (calc.games <= 0){
+      jogosHtml = `<span class="jogos-cell done">Meta batida</span>`;
+    } else {
+      const gamesShown = Math.max(0, calc.games);
+      jogosHtml = `<span class="jogos-cell">${gamesShown} jogos${calc.estimate ? ' <span class="est-mark" title="Estimativa: PDL para Mestre+ varia por servidor/temporada.">*</span>' : ''}</span>`;
+    }
+
+    row.innerHTML = `
+      <td class="cell-cliente">
+        <div class="cliente-name">${j.numero ? `<span class="num">#${escapeHtml(j.numero)}</span>` : ''}<button class="cliente-link" data-action="open" data-id="${j.id}">${escapeHtml(j.cliente)}</button></div>
+        <div>
+          ${j.tipo ? `<span class="tipo-badge ${j.tipo === 'Duo Boost' ? 'duo' : j.tipo === 'Coach' ? 'coach' : 'elo'}">${escapeHtml(j.tipo)}</span>` : ''}
+        </div>
+      </td>
+      <td data-label="Elo">
+        <span class="elo-range">
+          <span class="elo-dot" style="background:${eloColor(j.eloDe)}"></span>${eloLabel(j.eloDe, j.pdlAtual)}
+          <span class="elo-arrow">→</span>
+          <span class="elo-dot" style="background:${eloColor(j.eloAte)}"></span>${eloLabel(j.eloAte, j.pdlDesejado)}
+        </span>
+      </td>
+      <td data-label="Valor"><span class="valor">${fmtBRL(parseFloat(j.valor)||0)}</span></td>
+      <td data-label="Data"><span class="data-cell">${fmtDateShort(j.data)}</span></td>
+      <td data-label="Status"><span class="status-pill ${j.status}">${j.status === 'pago' ? 'Concluído' : 'Não concluído'}</span></td>
+      <td data-label="Jogos">${jogosHtml}</td>
+      <td class="cell-actions">
+        <div class="row-actions">
+          <button data-action="toggle" data-id="${j.id}" title="Alternar status">${j.status === 'pago' ? '↺' : '✓'}</button>
+          <button data-action="delete" data-id="${j.id}" class="danger" title="Excluir">✕</button>
+        </div>
+      </td>
+    `;
+    return row;
+  }
+
+  function buildJobCard(j){
+    const card = document.createElement('div');
+    const calc = calcGames(j);
+    let jogosHtml;
+    if (!calc){
+      jogosHtml = `<span class="jogos-cell empty">—</span>`;
+    } else if (calc.games <= 0){
+      jogosHtml = `<span class="jogos-cell done">Meta batida</span>`;
+    } else {
+      const gamesShown = Math.max(0, calc.games);
+      jogosHtml = `<span class="jogos-cell">${gamesShown} jogos${calc.estimate ? ' <span class="est-mark" title="Estimativa: PDL para Mestre+ varia por servidor/temporada.">*</span>' : ''}</span>`;
+    }
+
+    card.className = 'job-card ' + (j.status === 'pago' ? 'done' : 'pending');
+    card.innerHTML = `
+      <div class="job-card-top">
+        <div class="cliente-name">${j.numero ? `<span class="num">#${escapeHtml(j.numero)}</span>` : ''}<button class="cliente-link" data-action="open" data-id="${j.id}">${escapeHtml(j.cliente)}</button></div>
+        <span class="status-pill ${j.status}">${j.status === 'pago' ? 'Concluído' : 'Não concluído'}</span>
+      </div>
+      ${j.tipo ? `<span class="tipo-badge ${j.tipo === 'Duo Boost' ? 'duo' : j.tipo === 'Coach' ? 'coach' : 'elo'}">${escapeHtml(j.tipo)}</span>` : ''}
+      <span class="elo-range">
+        <span class="elo-dot" style="background:${eloColor(j.eloDe)}"></span>${eloLabel(j.eloDe, j.pdlAtual)}
+        <span class="elo-arrow">→</span>
+        <span class="elo-dot" style="background:${eloColor(j.eloAte)}"></span>${eloLabel(j.eloAte, j.pdlDesejado)}
+      </span>
+      <div class="job-card-bottom">
+        <div>
+          <span class="valor">${fmtBRL(parseFloat(j.valor)||0)}</span>
+          <span class="data-cell">· ${fmtDateShort(j.data)}</span>
+          <div>${jogosHtml}</div>
+        </div>
+        <div class="row-actions">
+          <button data-action="toggle" data-id="${j.id}" title="Alternar status">${j.status === 'pago' ? '↺' : '✓'}</button>
+          <button data-action="delete" data-id="${j.id}" class="danger" title="Excluir">✕</button>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  function buildHistoryJobRow(j){
+    const row = document.createElement('tr');
+    const banida = !!j.contaBanida;
+    if (banida) row.classList.add('row-banida');
+    row.innerHTML = `
+      <td class="cell-cliente">
+        <div class="cliente-name">${j.numero ? `<span class="num">#${escapeHtml(j.numero)}</span>` : ''}<button class="cliente-link" data-action="open" data-id="${j.id}">${escapeHtml(j.cliente)}</button></div>
+        <div>
+          ${j.tipo ? `<span class="tipo-badge ${j.tipo === 'Duo Boost' ? 'duo' : j.tipo === 'Coach' ? 'coach' : 'elo'}">${escapeHtml(j.tipo)}</span>` : ''}
+          ${j.avaliacao ? `<span class="row-stars">${'★'.repeat(j.avaliacao)}</span>` : ''}
+        </div>
+      </td>
+      <td data-label="Elo">
+        <span class="elo-range">
+          <span class="elo-dot" style="background:${eloColor(j.eloDe)}"></span>${eloLabel(j.eloDe, j.pdlAtual)}
+          <span class="elo-arrow">→</span>
+          <span class="elo-dot" style="background:${eloColor(j.eloAte)}"></span>${eloLabel(j.eloAte, j.pdlDesejado)}
+        </span>
+      </td>
+      <td data-label="Valor"><span class="valor">${fmtBRL(parseFloat(j.valor)||0)}</span></td>
+      <td data-label="Data"><span class="data-cell">${fmtDateShort(j.data)}</span></td>
+      <td class="cell-actions">
+        <div class="row-actions">
+          <button data-action="ban-toggle" data-id="${j.id}" class="${banida ? 'ban-active' : ''}" title="${banida ? 'Desmarcar conta banida' : 'Marcar conta banida'}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="18.5" x2="18.5" y2="5.5"/></svg>
+          </button>
+          <button data-action="delete" data-id="${j.id}" class="danger" title="Excluir">✕</button>
+        </div>
+      </td>
+    `;
+    return row;
+  }
+
+  function buildTipRow(t){
+    const row = document.createElement('tr');
+    const nomeHtml = t.cliente
+      ? `<button class="cliente-link" data-action="open-client" data-cliente="${escapeHtml(t.cliente)}">${escapeHtml(t.cliente)}</button>`
+      : '';
+    row.innerHTML = `
+      <td class="cell-cliente">
+        <div class="cliente-name">
+          <span class="tipo-badge elo" style="margin-right:6px;">Gorjeta</span>${nomeHtml}
+        </div>
+      </td>
+      <td data-label="Elo"><span class="jogos-cell empty">—</span></td>
+      <td data-label="Valor"><span class="valor">${fmtBRL(parseFloat(t.valor)||0)}</span></td>
+      <td data-label="Data"><span class="data-cell">${fmtDateShort(t.data)}</span></td>
+      <td class="cell-actions">
+        <div class="row-actions">
+          <button data-action="delete-tip" data-id="${t.id}" class="danger" title="Excluir">✕</button>
+        </div>
+      </td>
+    `;
+    return row;
   }
 
   function renderList(){
@@ -724,6 +1626,9 @@
     let filtered = jobs.slice().sort((a,b)=> b.data.localeCompare(a.data));
     if (currentFilter !== 'todos'){
       filtered = filtered.filter(j => j.status === currentFilter);
+    }
+    if (searchJobsQuery){
+      filtered = filtered.filter(j => jobMatchesSearch(j, searchJobsQuery));
     }
 
     document.getElementById('jobCount').textContent =
@@ -736,42 +1641,220 @@
     empty.style.display = 'none';
 
     filtered.forEach(j => {
-      const row = document.createElement('tr');
-      const calc = calcGames(j);
-      let jogosHtml;
-      if (!calc){
-        jogosHtml = `<span class="jogos-cell empty">—</span>`;
-      } else if (calc.games <= 0){
-        jogosHtml = `<span class="jogos-cell done">Meta batida</span>`;
-      } else {
-        const gamesShown = Math.max(0, calc.games);
-        jogosHtml = `<span class="jogos-cell">${gamesShown} jogos${calc.estimate ? ' <span class="est-mark" title="Estimativa: PDL para Mestre+ varia por servidor/temporada.">*</span>' : ''}</span>`;
-      }
+      list.appendChild(buildJobRow(j));
+    });
+  }
 
-      row.innerHTML = `
-        <td class="cell-cliente">
-          <div class="cliente-name">${j.numero ? `<span class="num">#${escapeHtml(j.numero)}</span>` : ''}${escapeHtml(j.cliente)}</div>
-          ${j.tipo ? `<span class="tipo-badge ${j.tipo === 'Duo Boost' ? 'duo' : j.tipo === 'Coach' ? 'coach' : 'elo'}">${escapeHtml(j.tipo)}</span>` : ''}
-        </td>
-        <td data-label="Elo">
-          <span class="elo-range">
-            <span class="elo-dot" style="background:${eloColor(j.eloDe)}"></span>${j.eloDe}
-            <span class="elo-arrow">→</span>
-            <span class="elo-dot" style="background:${eloColor(j.eloAte)}"></span>${j.eloAte}
-          </span>
-        </td>
-        <td data-label="Valor"><span class="valor">${fmtBRL(parseFloat(j.valor)||0)}</span></td>
-        <td data-label="Data"><span class="data-cell">${fmtDateShort(j.data)}</span></td>
-        <td data-label="Status"><span class="status-pill ${j.status}">${j.status === 'pago' ? 'Concluído' : 'Não concluído'}</span></td>
-        <td data-label="Jogos">${jogosHtml}</td>
-        <td class="cell-actions">
-          <div class="row-actions">
-            <button data-action="toggle" data-id="${j.id}" title="Alternar status">${j.status === 'pago' ? '↺' : '✓'}</button>
-            <button data-action="delete" data-id="${j.id}" class="danger" title="Excluir">✕</button>
+  function renderEloStats(){
+    const today = new Date();
+    const curMonth = today.getMonth();
+    const curYear = today.getFullYear();
+    const currentWeekKey = isoDate(getPaymentDate(todayISO()));
+
+    let weekCount = 0, monthCount = 0;
+    jobs.forEach(j => {
+      const jd = new Date(j.data + 'T00:00:00');
+      if (isoDate(getPaymentDate(j.data)) === currentWeekKey) weekCount++;
+      if (jd.getFullYear() === curYear && jd.getMonth() === curMonth) monthCount++;
+    });
+
+    document.getElementById('jobsWeekCount').textContent = weekCount;
+    document.getElementById('jobsMonthCount').textContent = monthCount;
+    document.getElementById('jobsTotalCount').textContent = jobs.length;
+
+    const table = document.getElementById('eloStatsTable');
+    if (!table) return;
+
+    const tipos = ['Elo Job', 'Duo Boost', 'Coach'];
+    const visibleRanks = RANKS.filter(r => r.name !== 'Desafiante');
+    const counts = {};
+    tipos.forEach(t => {
+      counts[t] = {};
+      visibleRanks.forEach(r => { counts[t][r.name] = 0; });
+    });
+
+    jobs.forEach(j => {
+      const tipo = tipos.includes(j.tipo) ? j.tipo : 'Elo Job';
+      const idx = tierIndex(j.eloDe);
+      if (idx < 0) return;
+      const rankName = RANKS[idx].name;
+      if (counts[tipo][rankName] === undefined) return;
+      counts[tipo][rankName]++;
+    });
+
+    const shortName = r => r.name === 'Grão-Mestre' ? 'GM' : r.name;
+
+    let head = '<thead><tr><th>Tipo</th>' +
+      visibleRanks.map(r => `<th title="${r.name}"><span class="elo-dot" style="background:${r.color}"></span>${shortName(r)}</th>`).join('') +
+      '<th>Total</th></tr></thead>';
+
+    let body = '<tbody>';
+    const colTotals = visibleRanks.map(() => 0);
+
+    tipos.forEach(t => {
+      let rowTotal = 0;
+      const cells = visibleRanks.map((r, i) => {
+        const c = counts[t][r.name];
+        rowTotal += c;
+        colTotals[i] += c;
+        return `<td>${c || '–'}</td>`;
+      }).join('');
+      body += `<tr><td>${escapeHtml(t)}</td>${cells}<td>${rowTotal || '–'}</td></tr>`;
+    });
+
+    const grandTotal = colTotals.reduce((a,b) => a+b, 0);
+    body += `<tr><td>Total</td>${colTotals.map(c => `<td>${c || '–'}</td>`).join('')}<td>${grandTotal || '–'}</td></tr>`;
+    body += '</tbody>';
+
+    table.innerHTML = head + body;
+
+    renderEloValues();
+  }
+
+  function renderEloValues(){
+    const table = document.getElementById('eloValueTable');
+    if (!table) return;
+
+    const tipos = ['Elo Job', 'Duo Boost', 'Coach'];
+    const visibleRanks = RANKS.filter(r => r.name !== 'Desafiante');
+    const values = {};
+    tipos.forEach(t => {
+      values[t] = {};
+      visibleRanks.forEach(r => { values[t][r.name] = 0; });
+    });
+
+    jobs.forEach(j => {
+      if (j.status !== 'pago') return;
+      const tipo = tipos.includes(j.tipo) ? j.tipo : 'Elo Job';
+      const idx = tierIndex(j.eloDe);
+      if (idx < 0) return;
+      const rankName = RANKS[idx].name;
+      if (values[tipo][rankName] === undefined) return;
+      values[tipo][rankName] += parseFloat(j.valor) || 0;
+    });
+
+    const shortName = r => r.name === 'Grão-Mestre' ? 'GM' : r.name;
+
+    let head = '<thead><tr><th>Tipo</th>' +
+      visibleRanks.map(r => `<th title="${r.name}"><span class="elo-dot" style="background:${r.color}"></span>${shortName(r)}</th>`).join('') +
+      '<th>Total</th></tr></thead>';
+
+    let body = '<tbody>';
+    const colTotals = visibleRanks.map(() => 0);
+
+    tipos.forEach(t => {
+      let rowTotal = 0;
+      const cells = visibleRanks.map((r, i) => {
+        const v = values[t][r.name];
+        rowTotal += v;
+        colTotals[i] += v;
+        return `<td>${v ? fmtBRL(v) : '–'}</td>`;
+      }).join('');
+      body += `<tr><td>${escapeHtml(t)}</td>${cells}<td>${rowTotal ? fmtBRL(rowTotal) : '–'}</td></tr>`;
+    });
+
+    const grandTotal = colTotals.reduce((a,b) => a+b, 0);
+    body += `<tr><td>Total</td>${colTotals.map(v => `<td>${v ? fmtBRL(v) : '–'}</td>`).join('')}<td>${grandTotal ? fmtBRL(grandTotal) : '–'}</td></tr>`;
+    body += '</tbody>';
+
+    table.innerHTML = head + body;
+  }
+
+  const ICON_COPY = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  const ICON_EYE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const ICON_EYE_OFF = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+  function renderContas(){
+    const list = document.getElementById('contasList');
+    const empty = document.getElementById('contasEmptyState');
+    if (!list) return;
+    list.innerHTML = '';
+
+    if (contas.length === 0){
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    contas.slice().reverse().forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'conta-card';
+      const cor = eloColor(c.elo || 'Ferro IV');
+      card.style.borderColor = cor + '40';
+      card.style.borderLeftColor = cor;
+      card.style.background = `linear-gradient(160deg, ${cor}14, var(--bg-panel-2) 55%)`;
+
+      const revealed = revealedSenhas.has(c.id);
+      const senhaShown = revealed ? c.senha : '•'.repeat(Math.max(6, (c.senha || '').length));
+
+      let html = '';
+      html += `
+        <div class="conta-elo" style="border-bottom-color:${cor}40;">
+          <span class="elo-dot" style="background:${cor}"></span>
+          <select class="conta-elo-select" style="color:${cor};" data-action="mudar-elo-conta" data-id="${c.id}">
+            ${ELO_LIST.map(e => `<option value="${e}" ${e === c.elo ? 'selected' : ''}>${e}</option>`).join('')}
+          </select>
+        </div>`;
+      if (c.nick){
+        html += `
+          <div class="conta-field">
+            <div class="cf-label">Nick</div>
+            <div class="cf-row">
+              <div class="cf-value">${escapeHtml(c.nick)}</div>
+              <button class="cf-btn" data-action="copiar-conta" data-campo="nick" data-id="${c.id}" title="Copiar">${ICON_COPY}</button>
+            </div>
+          </div>`;
+      }
+      html += `
+          <div class="conta-field">
+            <div class="cf-label">Login</div>
+            <div class="cf-row">
+              <div class="cf-value">${escapeHtml(c.login)}</div>
+              <button class="cf-btn" data-action="copiar-conta" data-campo="login" data-id="${c.id}" title="Copiar">${ICON_COPY}</button>
+            </div>
           </div>
-        </td>
-      `;
-      list.appendChild(row);
+          <div class="conta-field">
+            <div class="cf-label">Senha</div>
+            <div class="cf-row">
+              <div class="cf-value">${escapeHtml(senhaShown)}</div>
+              <button class="cf-btn" data-action="revelar-senha" data-id="${c.id}" title="${revealed ? 'Esconder senha' : 'Mostrar senha'}">${revealed ? ICON_EYE_OFF : ICON_EYE}</button>
+              <button class="cf-btn" data-action="copiar-conta" data-campo="senha" data-id="${c.id}" title="Copiar">${ICON_COPY}</button>
+            </div>
+          </div>`;
+
+      card.innerHTML = `<button class="conta-delete" data-action="excluir-conta" data-id="${c.id}" title="Excluir">✕</button>${html}`;
+      list.appendChild(card);
+    });
+  }
+
+  function renderTips(){
+    const list = document.getElementById('tipList');
+    const empty = document.getElementById('tipEmptyState');
+    if (!list) return;
+    list.innerHTML = '';
+
+    const doneJobs = jobs.filter(j => j.status === 'pago');
+    const entries = [
+      ...doneJobs.map(j => ({ kind:'trampo', data: dateOnly(j.dataConclusao) || j.data, ref:j })),
+      ...tips.map(t => ({ kind:'gorjeta', data: t.data, ref:t }))
+    ];
+    entries.sort((a,b) => b.data.localeCompare(a.data));
+
+    let filteredEntries = entries;
+    if (searchHistoryQuery){
+      filteredEntries = entries.filter(en =>
+        en.kind === 'trampo' ? jobMatchesSearch(en.ref, searchHistoryQuery) : tipMatchesSearch(en.ref, searchHistoryQuery)
+      );
+    }
+
+    if (filteredEntries.length === 0){
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    filteredEntries.forEach(en => {
+      list.appendChild(en.kind === 'trampo' ? buildHistoryJobRow(en.ref) : buildTipRow(en.ref));
     });
   }
 
@@ -781,14 +1864,33 @@
     return d.innerHTML;
   }
 
+  function fillTipClienteSelect(){
+    const select = document.getElementById('fTipCliente');
+    if (!select) return;
+    const current = select.value;
+
+    const nomes = [...new Set(jobs.map(j => j.cliente).filter(Boolean))]
+      .sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+    select.innerHTML = '<option value="" disabled selected>Selecione o cliente</option>' +
+      nomes.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+
+    if (nomes.includes(current)){
+      select.value = current;
+    }
+  }
+
   function render(){
     renderNextPayment();
     renderDashboard();
     renderList();
+    renderTips();
+    renderEloStats();
+    renderContas();
+    fillTipClienteSelect();
   }
 
   // ---------- Events ----------
-  document.getElementById('fData').value = todayISO();
   fillEloSelects();
 
   document.getElementById('jobForm').addEventListener('submit', async (e) => {
@@ -796,7 +1898,8 @@
     const numero = document.getElementById('fNumero').value.trim();
     const cliente = document.getElementById('fCliente').value.trim();
     const tipo = document.getElementById('fTipo').value;
-    const data = document.getElementById('fData').value;
+    const data = todayISO();
+    const hora = nowTime();
     const valor = document.getElementById('fValor').value;
     const eloDe = document.getElementById('fEloDe').value;
     const eloAte = document.getElementById('fEloAte').value;
@@ -808,7 +1911,7 @@
 
     jobs.push({
       id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
-      numero, cliente, tipo, data, valor, eloDe, eloAte,
+      numero, cliente, tipo, data, horaInicio: hora ? `${data}T${hora}` : null, valor, eloDe, eloAte,
       pdlAtual: pdlAtual === '' ? null : parseFloat(pdlAtual),
       pdlGanho: pdlGanho === '' ? null : parseFloat(pdlGanho),
       pdlDesejado: pdlDesejado === '' ? null : parseFloat(pdlDesejado),
@@ -820,21 +1923,56 @@
     showToast('Trampo adicionado.');
 
     e.target.reset();
-    document.getElementById('fData').value = todayISO();
     document.getElementById('fEloDe').value = 'Ferro IV';
     document.getElementById('fEloAte').value = 'Ferro IV';
   });
 
-  document.getElementById('jobList').addEventListener('click', async (e) => {
+  async function handleTableClick(e){
     const btn = e.target.closest('button');
     if (!btn) return;
     const id = btn.dataset.id;
     const action = btn.dataset.action;
+
+    if (action === 'open-client'){
+      const cliente = btn.dataset.cliente;
+      const clienteJobs = jobs.filter(j => j.cliente === cliente)
+        .sort((a,b) => b.data.localeCompare(a.data));
+      if (clienteJobs.length > 0){
+        openModal(clienteJobs[0]);
+      } else {
+        showToast('Nenhum trampo encontrado para esse cliente.');
+      }
+      return;
+    }
+
+    if (action === 'delete-tip'){
+      if (confirm('Excluir esta gorjeta?')){
+        tips = tips.filter(t => t.id !== id);
+        await saveTips();
+        render();
+        showToast('Gorjeta removida.');
+      }
+      return;
+    }
+
     const job = jobs.find(j => j.id === id);
     if (!job) return;
 
-    if (action === 'toggle'){
-      job.status = job.status === 'pago' ? 'pendente' : 'pago';
+    if (action === 'open'){
+      openModal(job);
+    } else if (action === 'ban-toggle'){
+      job.contaBanida = !job.contaBanida;
+      await saveJobs();
+      render();
+      showToast(job.contaBanida ? 'Marcado como conta banida.' : 'Desmarcado.');
+    } else if (action === 'toggle'){
+      if (job.status === 'pago'){
+        job.status = 'pendente';
+        job.dataConclusao = null;
+      } else {
+        job.status = 'pago';
+        job.dataConclusao = nowDateTime();
+      }
       await saveJobs();
       render();
     } else if (action === 'delete'){
@@ -845,7 +1983,10 @@
         showToast('Trampo removido.');
       }
     }
-  });
+  }
+
+  document.getElementById('jobList').addEventListener('click', handleTableClick);
+  document.getElementById('tipList').addEventListener('click', handleTableClick);
 
   document.querySelectorAll('.filters button').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -856,13 +1997,272 @@
     });
   });
 
+  document.getElementById('searchJobs').addEventListener('input', (e) => {
+    searchJobsQuery = e.target.value.trim();
+    renderList();
+  });
+
+  document.getElementById('searchHistory').addEventListener('input', (e) => {
+    searchHistoryQuery = e.target.value.trim();
+    renderTips();
+  });
+
+  const APP_VIEWS = ['painel', 'carteira', 'elos', 'contas'];
+
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const view = tab.dataset.view;
+      APP_VIEWS.forEach(v => {
+        const el = document.getElementById('view' + v.charAt(0).toUpperCase() + v.slice(1));
+        if (el) el.style.display = (v === view) ? '' : 'none';
+      });
+    });
+  });
+
+  document.getElementById('tipForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const clienteSelect = document.getElementById('fTipCliente');
+    const cliente = clienteSelect.value;
+    const valorInput = document.getElementById('fTipValor');
+    const valor = valorInput.value;
+    if (!cliente || !valor) return;
+
+    tips.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      cliente,
+      valor,
+      data: todayISO()
+    });
+
+    await saveTips();
+    render();
+    showToast('Gorjeta adicionada.');
+    e.target.reset();
+  });
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    try{
+      const payload = JSON.stringify({ jobs, tips, contas, exportadoEm: nowDateTime() }, null, 2);
+      const blob = new Blob([payload], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `central-de-boosts-backup-${todayISO()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('Backup baixado.');
+    } catch(e){
+      showToast('Não consegui gerar o backup.');
+    }
+  });
+
+  document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFile').click();
+  });
+
+  document.getElementById('importFile').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try{
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if (!Array.isArray(parsed.jobs) || !Array.isArray(parsed.tips)){
+        showToast('Arquivo inválido.');
+        return;
+      }
+      const parsedContas = Array.isArray(parsed.contas) ? parsed.contas : [];
+      if (confirm(`Isso vai substituir os dados atuais por ${parsed.jobs.length} trampo(s), ${parsed.tips.length} gorjeta(s) e ${parsedContas.length} conta(s) do backup. Continuar?`)){
+        jobs = parsed.jobs;
+        tips = parsed.tips;
+        contas = parsedContas;
+        await saveJobs();
+        await saveTips();
+        await saveContas();
+        render();
+        showToast('Backup importado.');
+      }
+    } catch(e){
+      showToast('Não consegui ler esse arquivo.');
+    }
+    e.target.value = '';
+  });
+
+  document.getElementById('contaForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nick = document.getElementById('fContaNick').value.trim();
+    const login = document.getElementById('fContaLogin').value.trim();
+    const senha = document.getElementById('fContaSenha').value;
+    const elo = document.getElementById('fContaElo').value;
+    if (!login || !senha) return;
+
+    contas.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      nick, login, senha, elo
+    });
+
+    await saveContas();
+    render();
+    showToast('Conta adicionada.');
+    e.target.reset();
+    document.getElementById('fContaElo').value = 'Ferro IV';
+  });
+
+  document.getElementById('contasList').addEventListener('change', async (e) => {
+    const select = e.target.closest('[data-action="mudar-elo-conta"]');
+    if (!select) return;
+    const conta = contas.find(c => c.id === select.dataset.id);
+    if (!conta) return;
+    conta.elo = select.value;
+    await saveContas();
+    renderContas();
+  });
+
+  document.getElementById('contasList').addEventListener('click', async (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+    const conta = contas.find(c => c.id === id);
+    if (!conta) return;
+
+    if (action === 'copiar-conta'){
+      copyText(conta[btn.dataset.campo]);
+    } else if (action === 'revelar-senha'){
+      if (revealedSenhas.has(id)) revealedSenhas.delete(id);
+      else revealedSenhas.add(id);
+      renderContas();
+    } else if (action === 'excluir-conta'){
+      if (confirm('Excluir esta conta?')){
+        contas = contas.filter(c => c.id !== id);
+        revealedSenhas.delete(id);
+        await saveContas();
+        renderContas();
+        showToast('Conta removida.');
+      }
+    }
+  });
+
   document.getElementById('resetBtn').addEventListener('click', async () => {
-    if (confirm('Isso vai apagar todos os trampos salvos. Tem certeza?')){
+    if (confirm('Isso vai apagar todos os trampos, gorjetas e contas salvas. Tem certeza?')){
       jobs = [];
+      tips = [];
+      contas = [];
       await saveJobs();
+      await saveTips();
+      await saveContas();
       render();
       showToast('Dados apagados.');
     }
+  });
+
+  // ---------- Modal de detalhes ----------
+  let modalJobId = null;
+  let modalStars = 0;
+  const backdrop = document.getElementById('modalBackdrop');
+
+  function paintStars(n){
+    document.querySelectorAll('#mStars button').forEach(b => {
+      b.classList.toggle('on', parseInt(b.dataset.star, 10) <= n);
+    });
+    document.getElementById('mStarsHint').textContent =
+      n > 0 ? `${n} de 5 estrelas` : 'Clique nas estrelas para avaliar. Clique na mesma estrela de novo para limpar.';
+  }
+
+  function openModal(job){
+    modalJobId = job.id;
+    modalStars = job.avaliacao || 0;
+
+    document.getElementById('mCliente').textContent = job.cliente;
+    document.getElementById('mSub').textContent =
+      [job.numero ? '#' + job.numero : '', job.tipo || ''].filter(Boolean).join(' · ');
+
+    document.getElementById('mNumero').value = job.numero || '';
+    document.getElementById('mClienteEdit').value = job.cliente || '';
+    document.getElementById('mTipo').value = job.tipo || 'Elo Job';
+    document.getElementById('mValorEdit').value = job.valor || '';
+    document.getElementById('mEloDe').value = job.eloDe;
+    document.getElementById('mEloAte').value = job.eloAte;
+    document.getElementById('mPdlAtualEdit').value = (job.pdlAtual === null || job.pdlAtual === undefined) ? '' : job.pdlAtual;
+    document.getElementById('mPdlGanhoEdit').value = (job.pdlGanho === null || job.pdlGanho === undefined) ? '' : job.pdlGanho;
+    document.getElementById('mPdlDesejadoEdit').value = (job.pdlDesejado === null || job.pdlDesejado === undefined) ? '' : job.pdlDesejado;
+
+    document.getElementById('mData').textContent =
+      job.horaInicio ? fmtDateTime(job.horaInicio) : fmtDateShort(job.data);
+
+    const calc = calcGames(job);
+    document.getElementById('mJogos').textContent =
+      !calc ? '—' : (calc.games <= 0 ? 'Meta batida' : `${Math.max(0, calc.games)} jogos`);
+
+    document.getElementById('mStatus').textContent =
+      job.status === 'pago'
+        ? 'Concluído' + (job.dataConclusao ? ` em ${fmtDateTime(job.dataConclusao)}` : '')
+        : 'Não concluído';
+
+    document.getElementById('mComentario').value = job.comentario || '';
+    document.getElementById('mNick').value = job.nick || '';
+    document.getElementById('mContato').value = job.contato || '';
+    paintStars(modalStars);
+    backdrop.classList.add('show');
+    const modalEl = backdrop.querySelector('.modal');
+    if (modalEl) modalEl.scrollTop = 0;
+  }
+
+  function closeModal(){
+    backdrop.classList.remove('show');
+    modalJobId = null;
+  }
+
+  document.querySelectorAll('#mStars button').forEach(b => {
+    b.addEventListener('click', () => {
+      const v = parseInt(b.dataset.star, 10);
+      modalStars = (modalStars === v) ? 0 : v;
+      paintStars(modalStars);
+    });
+  });
+
+  document.getElementById('mClose').addEventListener('click', closeModal);
+  backdrop.addEventListener('click', (e) => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && backdrop.classList.contains('show')) closeModal();
+  });
+
+  document.getElementById('mSave').addEventListener('click', async () => {
+    const job = jobs.find(j => j.id === modalJobId);
+    if (!job) return;
+
+    const novoCliente = document.getElementById('mClienteEdit').value.trim();
+    if (!novoCliente){
+      showToast('O nome do cliente não pode ficar em branco.');
+      return;
+    }
+
+    job.numero = document.getElementById('mNumero').value.trim();
+    job.cliente = novoCliente;
+    job.tipo = document.getElementById('mTipo').value;
+    job.valor = document.getElementById('mValorEdit').value;
+    job.eloDe = document.getElementById('mEloDe').value;
+    job.eloAte = document.getElementById('mEloAte').value;
+
+    const pdlAtual = document.getElementById('mPdlAtualEdit').value;
+    const pdlGanho = document.getElementById('mPdlGanhoEdit').value;
+    const pdlDesejado = document.getElementById('mPdlDesejadoEdit').value;
+    job.pdlAtual = pdlAtual === '' ? null : parseFloat(pdlAtual);
+    job.pdlGanho = pdlGanho === '' ? null : parseFloat(pdlGanho);
+    job.pdlDesejado = pdlDesejado === '' ? null : parseFloat(pdlDesejado);
+
+    job.avaliacao = modalStars;
+    job.comentario = document.getElementById('mComentario').value.trim();
+    job.nick = document.getElementById('mNick').value.trim();
+    job.contato = document.getElementById('mContato').value.trim();
+    await saveJobs();
+    render();
+    closeModal();
+    showToast('Trampo atualizado.');
   });
 
   loadJobs();
