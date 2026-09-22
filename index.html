@@ -1633,6 +1633,13 @@
     if (currentFilter !== 'todos'){
       filtered = filtered.filter(j => j.status === currentFilter);
     }
+    if (currentFilter === 'pago'){
+      const todayKey = todayISO();
+      filtered = filtered.filter(j => {
+        const baseDate = dateOnly(j.dataConclusao) || j.data;
+        return isoDate(getPaymentDate(baseDate)) > todayKey;
+      });
+    }
     if (searchJobsQuery){
       filtered = filtered.filter(j => jobMatchesSearch(j, searchJobsQuery));
     }
