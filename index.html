@@ -1298,13 +1298,20 @@
 
   // Returns the Wednesday (as Date) that closes the payment cycle containing `dateStr`.
   // Cycle runs Thu -> Wed. If date IS a Wednesday, that same day is the payment date.
-  function getPaymentDate(dateStr){
-    const d = new Date(dateStr + 'T00:00:00');
+  // Retorna um Date apontando pra quarta-feira, 06:00, em que aquele trampo/gorjeta será pago.
+  // Se o horário informado já passou das 6h de uma quarta, o pagamento vai pra quarta seguinte.
+  function getPaymentDate(input){
+    const d = input.includes('T') ? new Date(input) : new Date(input + 'T00:00:00');
     const day = d.getDay(); // 0 Sun ... 3 Wed ... 6 Sat
     const diff = (3 - day + 7) % 7;
-    const p = new Date(d);
-    p.setDate(d.getDate() + diff);
-    return p;
+    const cycle = new Date(d.getFullYear(), d.getMonth(), d.getDate() + diff, 6, 0, 0, 0);
+    if (cycle.getTime() <= d.getTime()) cycle.setDate(cycle.getDate() + 7);
+    return cycle;
+  }
+
+  // Já passou da quarta de pagamento (6h) daquele trampo/gorjeta?
+  function isPaymentPast(input){
+    return getPaymentDate(input).getTime() <= Date.now();
   }
 
   function fmtDateLong(d){
@@ -1421,15 +1428,13 @@
 
   // ---------- Rendering ----------
   function renderNextPayment(){
-    const p = getPaymentDate(todayISO());
+    const p = getPaymentDate(nowDateTime());
     document.getElementById('nextPaymentDate').textContent = fmtDateLong(p);
   }
 
   function renderDashboard(){
-    const today = new Date();
-    const todayKey = todayISO();
-    const curMonth = today.getMonth();
-    const curYear = today.getFullYear();
+    const curMonth = new Date().getMonth();
+    const curYear = new Date().getFullYear();
 
     let totalConcluidos=0, totalNaoConcluidos=0, monthTotal=0, yearTotal=0, tipTotal=0, monthTips=0, pendingTips=0;
 
@@ -1442,26 +1447,24 @@
         return;
       }
 
-      const baseDate = dateOnly(j.dataConclusao) || j.data;
-      const payKey = isoDate(getPaymentDate(baseDate));
+      const baseDate = j.dataConclusao || j.data;
 
-      if (payKey > todayKey){
-        // Ainda não passou a quarta de pagamento: continua contando como "Concluído" no Painel.
+      if (!isPaymentPast(baseDate)){
+        // Ainda não passou das 6h da quarta de pagamento: continua contando como "Concluído" no Painel.
         totalConcluidos += val;
         return;
       }
 
-      // Já passou a quarta: some do Painel e vira parte da Carteira (mensal/total).
+      // Já passou: some do Painel e vira parte da Carteira (mensal/total).
       yearTotal += val;
-      const pd = new Date(payKey + 'T00:00:00');
+      const pd = getPaymentDate(baseDate);
       if (pd.getFullYear() === curYear && pd.getMonth() === curMonth) monthTotal += val;
     });
 
     tips.forEach(t => {
       const val = parseFloat(t.valor) || 0;
-      const payKey = isoDate(getPaymentDate(t.data));
 
-      if (payKey > todayKey){
+      if (!isPaymentPast(t.data)){
         pendingTips += val;
         totalConcluidos += val;
         return;
@@ -1469,7 +1472,7 @@
 
       yearTotal += val;
       tipTotal += val;
-      const pd = new Date(payKey + 'T00:00:00');
+      const pd = getPaymentDate(t.data);
       if (pd.getFullYear() === curYear && pd.getMonth() === curMonth){
         monthTotal += val;
         monthTips += val;
@@ -1634,11 +1637,7 @@
       filtered = filtered.filter(j => j.status === currentFilter);
     }
     if (currentFilter === 'pago'){
-      const todayKey = todayISO();
-      filtered = filtered.filter(j => {
-        const baseDate = dateOnly(j.dataConclusao) || j.data;
-        return isoDate(getPaymentDate(baseDate)) > todayKey;
-      });
+      filtered = filtered.filter(j => !isPaymentPast(j.dataConclusao || j.data));
     }
     if (searchJobsQuery){
       filtered = filtered.filter(j => jobMatchesSearch(j, searchJobsQuery));
